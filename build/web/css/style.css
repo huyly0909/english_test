@@ -420,15 +420,15 @@ tr {
     text-align: right;
 }
 
-form-table.tr span {
+.form-table td span {
     padding-right: 20px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: serif;
     letter-spacing: 3px;
     text-shadow: 0.5px 0.5px;
 }
 
-td input[type='text'], td input[type='submit'] {
+td input[type='text'], td input[type='submit'], td input[type='button'] {
     width: 250px;
     height: 25px;
     border: 1px solid black;
@@ -437,6 +437,9 @@ td input[type='text'], td input[type='submit'] {
     color: #005256;
     padding: 2px;
     font-family: sans-serif;
+}
+td input[type='submit'], td input[type='button'] {
+    width: 150px !important;
 }
 
 td {

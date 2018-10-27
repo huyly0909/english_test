@@ -24,7 +24,7 @@
             });
 
             function validateForm() {
-                if ($("input[type='checkbox']:checked").length == 0) {
+                if ($("input[type='checkbox']:checked").length === 0) {
                     alert("Select correct answer");
                     return false;
                 }
@@ -105,6 +105,7 @@
                     
                     <tr>
                         <td colspan="2" class="buttons">
+                            <input type="hidden" value="1" name="type">
                             <input type="hidden" value="4" name="answerSize">
                             <input type="hidden" value="create" name="action">
                             <input type="hidden" value="1" name="type">

@@ -10,6 +10,6 @@ package models.tests;
  * @author tinluu
  */
 public class QuestionType {
-    final public static int BASIC = 1;
     final public static int ADVANCED = 0;
+    final public static int BASIC = 1;
 }

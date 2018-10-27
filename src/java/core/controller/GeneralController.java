@@ -46,7 +46,7 @@ public class GeneralController extends HttpServlet {
         if (CoreAction.ADD.equals(action)) {
             request.setAttribute("formHeader", "Create New User");
             request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
-            request.getRequestDispatcher(HtmlContent.CREATE_NEW_TEST_FORM).forward(request, response);
+            request.getRequestDispatcher(HtmlContent.CREATE_NEW_BASIC_TEST_FORM).forward(request, response);
         }
     }
 
