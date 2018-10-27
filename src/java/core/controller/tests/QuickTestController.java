@@ -6,6 +6,7 @@ package core.controller.tests;
  * and open the template in the editor.
  */
 
+import core.CoreSection.CoreAction;
 import core.CoreSection.HtmlContent;
 import core.controller.SessionController;
 import core.op.CreateNewQuickTestOp;
@@ -17,10 +18,12 @@ import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.REGISTER_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.TOP_BTN_NAME;
 import core.util.HtmlBuilder.QuestionHTMLBuilder;
+import core.util.field.Field;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -28,6 +31,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.tests.Answer;
 import models.tests.Question;
 import models.users.CurrentUser;
 
@@ -41,33 +45,54 @@ public class QuickTestController extends HttpServlet {
     final public static String CREATE_TEST_FORM = "createTestForm";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
-        response.setContentType("text/html;charset=UTF-8");
-        String action = (String) request.getParameter("action");
-        if(action != null && action.equals("create")) {
-            CreateNewQuickTestOp.create(newValues(request));
-            request.setAttribute("isSuccessful", true);
-            createNewQuickTestForm(request, response);
-        } else {
-            if (SessionController.isTeacher(request)) {
-                createNewQuickTestForm(request, response);
-            } else {
-                createQuickTestForm(request, response);
-            }
-        }
+//        response.setContentType("text/html;charset=UTF-8");
+//        String action = (String) request.getParameter("action");
+//        // After create new quick test
+//        if(action != null && action.equals(CoreAction.CREATE)) {
+//            Question newQuestion = newQuestion(request);
+//            List<Answer> newAnswers = newAnswers(request);
+//            CreateNewQuickTestOp.create(newQuestion, newAnswers);
+//            request.setAttribute("isSuccessful", true);
+//            createNewBasicQuickTestForm(request, response);
+//        } else {
+            boolean isAdvanced = CoreAction.ADVANCED.equals(action);
+//            // If current user is teacher => create new test
+//            // Else do test
+//            if (SessionController.isTeacher(request)) {
+//                if(isAdvanced) {
+////                    createNewAdvancedQuickTestForm(request, response);
+//                } else {
+//                    createNewBasicQuickTestForm(request, response);
+//                }
+//            } else {
+                createQuickTestForm(isAdvanced, request, response);
+//            }
+//        }
     }
     
-    private String[] newValues(HttpServletRequest request) {
-        String[] result = new String[6];
-        String[] allColumns = Question.allColumns;
-        // Question.allColumns.length - 1 : 
-        for (int i = 0; i < allColumns.length - 1; i++) {
-            result[i] = request.getParameter(allColumns[i]);
-        }
-        return result;
+    private Question newQuestion(HttpServletRequest request) {
+        return new Question(
+                (String) request.getAttribute(Question.DESCRIPTION.Name()),
+                (Integer) request.getAttribute(Question.QTYPE.Name())
+        );
     }
     
-    public void createNewQuickTestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
-        request.setAttribute("formHeader", "Create new Quick Test");
+    private List<Answer> newAnswers(HttpServletRequest request) {
+        int answerSize = (Integer) request.getAttribute("answerSize");
+        List<Answer> answers = new ArrayList<>();
+                
+        for (int i = 0; i < answerSize; i++) {
+            answers.add(new Answer(
+                    (String) request.getAttribute(Answer.DESCRIPTION.Name() + i),
+                    (Boolean) request.getAttribute(Answer.IS_CORRECT.Name() + i)
+            ));
+        }
+        return answers;
+    }
+    
+    public void createNewBasicQuickTestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        request.setAttribute("formHeader", "Create New Basic Quick Test");
+        // generate form
         request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
         request.getRequestDispatcher(HtmlContent.CREATE_NEW_TEST_FORM).forward(request, response);
     }
@@ -76,14 +101,14 @@ public class QuickTestController extends HttpServlet {
         return "<h1 class='test-form-title'>" + header + "</h1>";
     }
 
-    public void createQuickTestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+    public void createQuickTestForm(boolean isAdvanced, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         // Create test header
         request.setAttribute("testHeader", testHeader("Quick Test"));
         // Get Random 10 questions
         ArrayList<Question> questionList = GetQuickTestOp.getRandomQuestions(10);
         String tenQuestionsHTMLForm = "";
         for (Question question : questionList) {
-            tenQuestionsHTMLForm += QuestionHTMLBuilder.build(question, questionList.indexOf(question) + 1);
+            tenQuestionsHTMLForm += QuestionHTMLBuilder.build(question, questionList.indexOf(question) + 1, isAdvanced);
         }
         String fullQuicktest = tenQuestionsHTMLForm 
                 + ButtonBuilder.SUBMIT_BTN 

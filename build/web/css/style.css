@@ -48,6 +48,23 @@ body {
     border: 1px solid rgba(255,255,255,0.9);
 }
 
+.div-btn.list-view-btn {
+    position: absolute;
+    bottom: 10px;
+}
+
+.div-btn.list-view-btn.list-view-edit-btn {
+    right: 170px;
+}
+
+.div-btn.list-view-btn.list-view-add-btn {
+    right: 100px;
+}
+
+.div-btn.list-view-btn.list-view-delete-btn {
+    right: 10px;
+}
+
 .logout {
 }
 .login {
@@ -80,6 +97,14 @@ body {
     right: 0;
 }
 
+.quick-test-basic-btn {
+    background: url(../img/test-section/basic.jpg) no-repeat;
+}
+
+.quick-test-advented-btn {
+    background: url(../img/test-section/advance.jpg) no-repeat;
+}
+
 .reading-btn {
     top: 10px   ;
     right: 10px;
@@ -104,13 +129,37 @@ body {
     background: url(../img/test-section/listening.png) no-repeat;
 }
 
-.test-section-btn {
+.quick-test-options-container, .section-submit-input {
+    height: 25px;
+    line-height: 25px;
+    background-color: #95b9b3;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 10px;
+    font-weight: 400;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.test-section-btn, .quick-test-options-container, .section-submit-input {
     height: 250px;
     width: 330px;
     background-size: 100% 100%;
     background-color: white;
     position: absolute;
     margin: auto;
+}
+
+.section-submit-input {
+    color: #95b9b3;
+    position: relative;
+    font-size: 30px;
+    text-shadow: 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+    font-family: Arvo;
+    /*letter-spacing: 10px;*/
+    font-weight: bolder;
+    background-size: 100% 100%;
 }
 
 .test-section-text {
@@ -266,9 +315,16 @@ span.bold {
 }
 /*radio input shape*/
 .option-input.radio {
-  border-radius: 20%;
+  border-radius: 50%;
 }
 .option-input.radio::after {
+  border-radius: 50%;
+}
+
+.option-input.checkbox {
+  border-radius: 20%;
+}
+.option-input.checkbox::after {
   border-radius: 20%;
 }
 
@@ -364,7 +420,7 @@ tr {
     text-align: right;
 }
 
-tr span {
+form-table.tr span {
     padding-right: 20px;
     font-size: 25px;
     font-family: serif;
@@ -404,3 +460,4 @@ td.buttons input:hover {
     outline: none;
     border: 1px solid rgba(255,255,255,0.9);
 }
+

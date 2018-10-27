@@ -48,4 +48,12 @@ public class Strings {
         }
         return text;
     }
+
+    public static String getLabel(String name){
+        String[] arr = name.split("_");
+        for(int i = 0; i < arr.length; i++) {
+            arr[i] = arr[i].substring(0, 1).toUpperCase() + arr[i].substring(1, arr[i].length());
+        }
+        return String.join(" ", arr);
+    }
 }

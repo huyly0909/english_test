@@ -62,7 +62,10 @@
                             <span>Answer A</span>
                         </td>
                         <td>
-                           <input type="text" name="a"  required><br>
+                           <input type="text" name="answer0"  required><br>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="isCorrect0">
                         </td>
                     </tr>
                     
@@ -71,7 +74,10 @@
                             <span>Answer B</span>
                         </td>
                         <td>
-                           <input type="text" name="b"  required><br>
+                           <input type="text" name="answer1"  required><br>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="isCorrect1">
                         </td>
                     </tr>
                     
@@ -80,7 +86,10 @@
                             <span>Answer C</span>
                         </td>
                         <td>
-                           <input type="text" name="c"  required><br>
+                           <input type="text" name="answer2"  required><br>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="isCorrect2">
                         </td>
                     </tr>
                     
@@ -89,41 +98,21 @@
                             <span>Answer D</span>
                         </td>
                         <td>
-                           <input type="text" name="d"  required><br>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>
-                            <span>Correct answer</span>
+                           <input type="text" name="answer3"  required><br>
                         </td>
                         <td>
-                           <input id="correctAnswer" type="text" placeholder="A, B, C or D" name="correct_answer" required ><br>
+                            <input type="checkbox" name="isCorrect3">
                         </td>
                     </tr>
                     
                     <tr>
                         <td colspan="2" class="buttons">
+                            <input type="hidden" value="4" name="answerSize">
                             <input type="hidden" value="create" name="action">
                             <input type="submit" value="Create">
-                            <!--<input type='text' id="isSuccessful" class="isSuccessful" readonly value='Create successful!' style="display: none;">-->
                         </td>
-                        <!--<td>-->
-                           <!--<input type='text' id="isSuccessful" class="isSuccessful" readonly value='Create successful!' style="display: none;"><br>-->
-                        <!--</td>-->
                     </tr>
                 </table>
-            <!--<div class="create-form">-->
-                <!--Description: <input type="text" placeholder="Description" name="description" required ><br>-->
-<!--                A: <input type="text" name="a"  required><br>
-                B: <input type="text" name="b"  required><br>
-                C: <input type="text" name="c"  required><br>
-                D: <input type="text" name="d"  required><br>
-                Correct Answer: <input id="correctAnswer" type="text" placeholder="A, B, C or D" name="correct_answer" required ><br>-->
-<!--                <input type='text' id="isSuccessful" class="isSuccessful" readonly value='Create successful!' style="display: none;"><br>
-                <input type="hidden" value="create" name="action">
-                <input type="submit" value="Create">-->
-            <!--</div>-->
         </form>
         </div>
     </body>

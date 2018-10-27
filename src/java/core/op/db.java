@@ -6,6 +6,7 @@
 package core.op;
 
 import core.util.Strings;
+import core.util.field.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -28,8 +29,7 @@ public class db {
     private String clazz;
     private String columns;
     private String conditions;
-    private String strValues;
-    private String intValues;
+    private String values;
     
     public db() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         columns = "*";
@@ -73,16 +73,25 @@ public class db {
         return this;
     }
     
-    public db addStrValues(String... values) {
-        strValues = "'" + String.join("', '", values) + "'";
+    public db addColumns(Field... fields) {
+        columns = "`";
+        for(Field field : fields) {
+            columns += field.Name() + "`, `";
+        }
+        columns = columns.substring(0, columns.length() - 3);
         return this;
     }
     
-    public db addIntValues(int... values) {
-        String str = String.join(", ", Arrays.toString(values));
-        intValues = str.substring(1, str.length() - 1);
+    public db addValues(String... values) {
+        this.values = "'" + String.join("', '", values) + "'";
         return this;
     }
+    
+//    public db addIntValues(int... values) {
+//        String str = String.join(", ", Arrays.toString(values));
+//        intValues = str.substring(1, str.length() - 1);
+//        return this;
+//    }
 
     public db addConditions(String... conditions) {
         this.conditions = String.join(" && ", conditions);
@@ -91,22 +100,11 @@ public class db {
 
     public ResultSet execute() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         final String query = String.format("select %s from %s where %s", columns, clazz, conditions);
-        return executeQuery(query);
-    }
-    
-    /*
-    Rule: Need to add all string colums before int columns
-    */
-    public void update() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        String values = Strings.isNotEmpty(strValues) ? strValues : "";
-        if (Strings.isNotEmpty(intValues)) {
-            values += ", " + intValues;
-        }
-        final String query = String.format("insert into %s (%s) values (%s)", clazz, columns , values);
-        statement.executeUpdate(query);
-    }
-    
-    private ResultSet executeQuery(String query) throws SQLException {
         return statement.executeQuery(query);
+    }
+
+    public int update() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        final String query = String.format("insert into %s (%s) values (%s)", clazz, columns , values);
+        return statement.executeUpdate(query);
     }
 }

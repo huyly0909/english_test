@@ -53,7 +53,8 @@ public class CheckUserLogin {
 
     public static boolean checkUser(String userName, String password, HttpServletRequest request) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         ResultSet resultSet = new db().find(User.TYPE)
-                .addConditions(ConditionBuilder.get(User.USERNAME, userName), ConditionBuilder.get(User.PASSWORD, password))
+                .addConditions(ConditionBuilder.get(User.USERNAME.Name(), userName),
+                               ConditionBuilder.get(User.PASSWORD.Name(), password))
                 .execute();
         if (resultSet.first()) { // Check has at least one user who has correct user_name and correct password
             setCurrentUser(resultSet, request);
@@ -64,12 +65,13 @@ public class CheckUserLogin {
 
     private static void setCurrentUser(ResultSet resultSet, HttpServletRequest request) throws SQLException {
         HttpSession session = request.getSession(false);
-        CurrentUser currentUser = new CurrentUser(resultSet.getInt(User.ID),
-                resultSet.getString(User.FULLNAME),
-                Role.getRole(resultSet.getInt(User.ROLEID)),
-                resultSet.getInt(User.AGE),
-                resultSet.getString(User.ADDRESS),
-                resultSet.getInt(User.PHONE));
+        CurrentUser currentUser = new CurrentUser(
+                resultSet.getInt(User.ID.Name()),
+                resultSet.getString(User.FULLNAME.Name()),
+                Role.getRole(resultSet.getInt(User.ROLEID.Name())),
+                resultSet.getInt(User.AGE.Name()),
+                resultSet.getString(User.ADDRESS.Name()),
+                resultSet.getInt(User.PHONE.Name()));
         session.setAttribute("currentUser", currentUser);
     }
 }

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : create_test.content
-    Created on : Oct 22, 2018, 12:29:52 AM
+    Document   : create_new_advanced_test
+    Created on : Oct 27, 2018, 4:13:15 PM
     Author     : tinluu
 --%>
 
@@ -9,41 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quick Test</title>
-        <link rel="stylesheet" href="css/style.css">
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script TYPE="text/javascript">
-            $(document).ready(function(){
-                var isSuccessful = '${isSuccessful}';
-                if (isSuccessful) {
-                    alert("New question was created!");
-                }
-                var displayStyle = "display: ";
-                displayStyle += isSuccessful ? "block" : "none";
-                $("#isSuccessful").attr('style', displayStyle);
-            });
-
-            function validateForm() {
-                var correctAnswers = ["A", "B", "C", "D"];
-                var isCorrect = false;
-                for (var i = 0; i < correctAnswers.length; i++) {
-                    if ($("#correctAnswer").val() === correctAnswers[i]) {
-                       isCorrect = true;
-                       break;
-                    }
-                }
-                if (isCorrect) {
-                    return true;
-                }
-                alert("Correct answer is A, B, C or D.");
-                return false;
-            }
-        </script>
+        <title>JSP Page</title>
     </head>
     <body>
-        ${topBtn}
         <div class="form-container header form-title">
-            ${formHeader}
+            <h1 class='test-form-title'>Create New Advanced Quick Test</h1>
         </div>
         <div class="form-container body">
             <form method="post" action="quick_test" name="createQuestionForm" onsubmit="return validateForm()">
@@ -62,10 +32,7 @@
                             <span>Answer A</span>
                         </td>
                         <td>
-                           <input type="text" name="answer0"  required><br>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="isCorrect0">
+                           <input type="text" name="a"  required><br>
                         </td>
                     </tr>
                     
@@ -74,10 +41,7 @@
                             <span>Answer B</span>
                         </td>
                         <td>
-                           <input type="text" name="answer1"  required><br>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="isCorrect1">
+                           <input type="text" name="b"  required><br>
                         </td>
                     </tr>
                     
@@ -86,10 +50,7 @@
                             <span>Answer C</span>
                         </td>
                         <td>
-                           <input type="text" name="answer2"  required><br>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="isCorrect2">
+                           <input type="text" name="c"  required><br>
                         </td>
                     </tr>
                     
@@ -98,16 +59,21 @@
                             <span>Answer D</span>
                         </td>
                         <td>
-                           <input type="text" name="answer3"  required><br>
+                           <input type="text" name="d"  required><br>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <span>Correct answer</span>
                         </td>
                         <td>
-                            <input type="checkbox" name="isCorrect3">
+                           <input id="correctAnswer" type="text" placeholder="A, B, C or D" name="correct_answer" required ><br>
                         </td>
                     </tr>
                     
                     <tr>
                         <td colspan="2" class="buttons">
-                            <input type="hidden" value="4" name="answerSize">
                             <input type="hidden" value="create" name="action">
                             <input type="submit" value="Create">
                         </td>

@@ -18,4 +18,8 @@ public class ConditionBuilder {
     public static String get(String field, boolean value) {
         return String.format("`%s` = %s", field, value ? 1 : 0);
     }
+    
+    public static String get(String field, int value) {
+        return String.format("`%s` = %s", field, value);
+    }
 }

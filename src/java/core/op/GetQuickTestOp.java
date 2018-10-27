@@ -5,13 +5,16 @@
  */
 package core.op;
 
+import core.util.Booleans;
 import core.util.ConditionBuilder;
 import core.util.Ints;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import models.tests.Answer;
 import models.tests.Question;
+import models.tests.QuestionType;
 
 /**
  *
@@ -20,23 +23,29 @@ import models.tests.Question;
 public class GetQuickTestOp {
 
     private static ArrayList<Question> getQuestionList() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        ResultSet resultSet = new db().where(Question.TYPE)
-                .addConditions(ConditionBuilder.get(Question.IS_QUICK_TEST, true))
+        // Get list of question
+        ResultSet questionSet = new db().where(Question.TYPE)
+                .addConditions(ConditionBuilder.get(Question.QTYPE.Name(), QuestionType.BASIC))
                 .execute();
         ArrayList<Question> questionList = new ArrayList<>();
         // Add new question into questions list
-        while (resultSet.next()) {
-            questionList.add(
-                    new Question(resultSet.getString(Question.DESCRIPTION),
-                                 resultSet.getString(Question.A),
-                                 resultSet.getString(Question.B),
-                                 resultSet.getString(Question.C),
-                                 resultSet.getString(Question.D),
-                                 resultSet.getString(Question.CORRECT_ANSWER))
-            );
+        while (questionSet.next()) {
+            Question currentQuestion = new Question(questionSet.getString(Question.DESCRIPTION.Name()));
+            // Get add answers from question_id
+            ResultSet answerSet = new db().where(Answer.TYPE)
+                    .addConditions(ConditionBuilder.get(Answer.QUESTION_ID.Name(), questionSet.getInt(Question.ID.Name())))
+                    .execute();
+            while (answerSet.next()) {
+                currentQuestion.addAnswers(
+                        new Answer(answerSet.getString(Answer.QUESTION_ID.Name()),
+                                   Booleans.isTrue(answerSet.getInt(Answer.IS_CORRECT.Name())))
+                );
+            }
+            questionList.add(currentQuestion);
         }
         return questionList;
     }
+
     public static ArrayList<Question> getRandomQuestions(int amount) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<Question> allQuestions = getQuestionList();
         ArrayList<Question> questions = new ArrayList<>();

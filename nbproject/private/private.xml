@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/tinluu/Downloads/test/src/java/core/CoreSection/CoreSection.java</file>
-            <file>file:/Users/tinluu/Downloads/test/src/java/models/tests/Question.java</file>
-            <file>file:/Users/tinluu/Downloads/test/web/create_new_test.content.jsp</file>
-            <file>file:/Users/tinluu/Downloads/test/src/java/core/controller/tests/QuickTestController.java</file>
-            <file>file:/Users/tinluu/Downloads/test/src/java/core/op/CreateNewQuickTestOp.java</file>
-            <file>file:/Users/tinluu/Downloads/test/src/java/core/CoreSection/CoreAction.java</file>
-            <file>file:/Users/tinluu/Downloads/test/web/Admin.jsp</file>
-            <file>file:/Users/tinluu/Downloads/test/web/home.jsp</file>
-            <file>file:/Users/tinluu/Downloads/test/web/login.jsp</file>
+            <file>file:/Users/tinluu/english_test/web/test_form.content.jsp</file>
+            <file>file:/Users/tinluu/english_test/web/home.jsp</file>
+            <file>file:/Users/tinluu/english_test/web/css/style.css</file>
+            <file>file:/Users/tinluu/english_test/src/java/core/op/db.java</file>
+            <file>file:/Users/tinluu/english_test/web/login.jsp</file>
+            <file>file:/Users/tinluu/english_test/src/java/core/controller/tests/QuickTestController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -11,28 +11,47 @@
         <script TYPE="text/javascript">
             function checkResult() {
                 var total = 0;
-                // display all correct-answer
-                $(".correct-answer").each(function(index) {
-                    $(".correct-answer:eq(" + index + ")").attr("style", "display: block");
-                });
+                var questions_size = $(".question-container").length;
+                var core_per_question = 100 / questions_size;
                 // Compute total core
-                for (var i = 1; i <= 10; i++) {
+                for (var i = 1; i <= questions_size; i++) {
                     var questionID = "#question" + i;
                     var questionInput = questionID + " > input";
                     // Get selected answer
                     var selectedAnswer = $(questionInput + ":checked");
                     var selectedAnswerVal = selectedAnswer.val();
+                    if (typeof selectedAnswerVal === 'undefined') {
+                        alert("Please finish question " + i);
+                        return false;
+                    }
                     //  Get correct answer
                     var correctAnswerVal = $(questionID + " > div[class='correct-answer'] > span").text();
                     // compare selected answer with correct answer
-                    if (selectedAnswerVal === correctAnswerVal) {
-                        total += 10;
+                    var isCorrect = true;
+                    // If have single answer
+                    // else have multiple answers
+                    if (selectedAnswer.length === 1) {
+                        isCorrect = correctAnswerVal === selectedAnswerVal;
+                    } else {
+                        for (var j = 0; j < selectedAnswer.length; j++) {
+                            if(!correctAnswerVal.includes(selectedAnswer.get(j).value)) {
+                                isCorrect = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (isCorrect) {
+                        total += core_per_question;
                     }
                     // disable question after submit
                     $(questionInput).each(function(index) {
                         $(questionInput + ":eq(" + index + ")").attr("disabled", true);
                     });
                 }
+                // display all correct-answer
+                $(".correct-answer").each(function(index) {
+                    $(".correct-answer:eq(" + index + ")").attr("style", "display: block");
+                });
                 total = " Total core: " + total + " " + (total !== 0 ? "points" : "point");
                 // display total core
                 $("#totalCore").text(total);
