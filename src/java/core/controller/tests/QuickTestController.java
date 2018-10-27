@@ -47,9 +47,9 @@ public class QuickTestController extends HttpServlet {
     final public static String CREATE_TEST_FORM = "createTestForm";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
-//        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         String action = (String) request.getParameter("action");
-//        // After create new quick test
+        // After create new quick test
         if(action != null && action.equals(CoreAction.CREATE)) {
             Question newQuestion = newQuestion(request);
             List<Answer> newAnswers = newAnswers(request);
@@ -59,18 +59,14 @@ public class QuickTestController extends HttpServlet {
             boolean isAdvanced = type == QuestionType.ADVANCED;
             createNewQuickTestForm(isAdvanced, request, response);
         } else {
-//            boolean isAdvanced = CoreAction.ADVANCED.equals(action);
-////            // If current user is teacher => create new test
-////            // Else do test
-//            if (SessionController.isTeacher(request)) {
-//                if(isAdvanced) {
-////                    createNewAdvancedQuickTestForm(request, response);
-//                } else {
-                    createNewQuickTestForm(true, request, response);
-//                }
-//            } else {
-//                getQuickTestForm(isAdvanced, request, response);
-//            }
+            boolean isAdvanced = CoreAction.ADVANCED.equals(action);
+            // If current user is teacher => create new test
+            // Else do test
+            if (SessionController.isTeacher(request)) {
+                createNewQuickTestForm(isAdvanced, request, response);
+            } else {
+                getQuickTestForm(isAdvanced, request, response);
+            }
         }
     }
     

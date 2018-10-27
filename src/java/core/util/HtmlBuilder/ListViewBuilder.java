@@ -22,9 +22,9 @@ import models.users.User;
  */
 public class ListViewBuilder {
     
-    final public static String EDIT_BTN = "<a href=''><div class='div-btn list-view-btn list-view-edit-btn' style=\"display: none\">Edit</div></a>";
-    final public static String DELETE_BTN = "<a href=''><div class='div-btn list-view-btn list-view-delete-btn'>Delete</div></a>";
-    final public static String ADD_BTN = "<a href=''><div class='div-btn list-view-btn list-view-add-btn'>Add</div></a>";
+    final public static String EDIT_BTN = "<div type='button' class='div-btn list-view-btn list-view-edit-btn' style=\"display: none\">Edit</div>";
+    final public static String DELETE_BTN = "<div type='button' class='div-btn list-view-btn list-view-delete-btn'>Delete</div>";
+    final public static String ADD_BTN = "<div type='button' class='div-btn list-view-btn list-view-add-btn'>Add</div>";
     final private static String STR_TD_STYLE = "str-col-style";
     final private static String NUMBER_TD_STYLE = "number-col-style";
     final private static String TABLE = "<table class='list-view-table' border=1>%s</table>";
