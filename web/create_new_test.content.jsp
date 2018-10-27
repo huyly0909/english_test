@@ -24,19 +24,17 @@
             });
 
             function validateForm() {
-                var correctAnswers = ["A", "B", "C", "D"];
-                var isCorrect = false;
-                for (var i = 0; i < correctAnswers.length; i++) {
-                    if ($("#correctAnswer").val() === correctAnswers[i]) {
-                       isCorrect = true;
-                       break;
-                    }
+                if ($("input[type='checkbox']:checked").length == 0) {
+                    alert("Select correct answer");
+                    return false;
                 }
-                if (isCorrect) {
-                    return true;
+            }
+
+            function checkCorrectAnswer() {
+                if ($("input[type='checkbox']:checked").length > 1) {
+                    alert("The basis question just has one correct answer.");
+                    return false;
                 }
-                alert("Correct answer is A, B, C or D.");
-                return false;
             }
         </script>
     </head>
@@ -53,7 +51,7 @@
                             <span>Description</span>
                         </td>
                         <td>
-                           <input type="text" name="description"  required><br>
+                           <input type="text" value="New description" name="description"  required><br>
                         </td>
                     </tr>
 
@@ -62,10 +60,10 @@
                             <span>Answer A</span>
                         </td>
                         <td>
-                           <input type="text" name="answer0"  required><br>
+                           <input type="text" name="description0" value="a" required><br>
                         </td>
                         <td>
-                            <input type="checkbox" name="isCorrect0">
+                            <input type="checkbox" onclick="return checkCorrectAnswer()" checked name="is_correct0">
                         </td>
                     </tr>
                     
@@ -74,10 +72,10 @@
                             <span>Answer B</span>
                         </td>
                         <td>
-                           <input type="text" name="answer1"  required><br>
+                           <input type="text" name="description1" value="b" required><br>
                         </td>
                         <td>
-                            <input type="checkbox" name="isCorrect1">
+                            <input type="checkbox" onclick="return checkCorrectAnswer()" name="is_correct1">
                         </td>
                     </tr>
                     
@@ -86,10 +84,10 @@
                             <span>Answer C</span>
                         </td>
                         <td>
-                           <input type="text" name="answer2"  required><br>
+                           <input type="text" name="description2" value="c" required><br>
                         </td>
                         <td>
-                            <input type="checkbox" name="isCorrect2">
+                            <input type="checkbox" onclick="return checkCorrectAnswer()" name="is_correct2">
                         </td>
                     </tr>
                     
@@ -98,10 +96,10 @@
                             <span>Answer D</span>
                         </td>
                         <td>
-                           <input type="text" name="answer3"  required><br>
+                           <input type="text" name="description3" value="d" required><br>
                         </td>
                         <td>
-                            <input type="checkbox" name="isCorrect3">
+                            <input type="checkbox" onclick="return checkCorrectAnswer()" name="is_correct3">
                         </td>
                     </tr>
                     
@@ -109,6 +107,7 @@
                         <td colspan="2" class="buttons">
                             <input type="hidden" value="4" name="answerSize">
                             <input type="hidden" value="create" name="action">
+                            <input type="hidden" value="1" name="type">
                             <input type="submit" value="Create">
                         </td>
                     </tr>

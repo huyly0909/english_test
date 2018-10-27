@@ -25,4 +25,8 @@ public class Booleans {
     public static int convertToInt(boolean value) {
         return value ? 1 : 0;
     }
+    
+    public static boolean checkBox (String value) {
+        return Strings.isNotEmpty(value) && value.equals("on");
+    }
 }

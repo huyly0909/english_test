@@ -53,8 +53,8 @@ public class Question {
         this.answers = answers;
     }
     
-    public void addAnswers(Answer answers) {
-        this.answers.add(answers);
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
     }
 
     public String getDescription() {

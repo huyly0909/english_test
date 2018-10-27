@@ -30,10 +30,14 @@ public class db {
     private String columns;
     private String conditions;
     private String values;
+    private String orderBy;
+    private String limit;
     
     public db() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         columns = "*";
         conditions = "1";
+        limit = "";
+        orderBy = "id";
         connectDatabase();
     }
     
@@ -48,18 +52,18 @@ public class db {
         }
     }
     
-    public void closeDatabaseConnection() throws SQLException {
+    public void close() throws SQLException {
         connection.close();
     }
     
     public db find(String clazz) throws SQLException {
-        this.clazz = clazz.toLowerCase();
+        this.clazz = "`" + clazz.toLowerCase() + "`";
 //        columns = new ArrayList<String>();
         return this;
     }
     
     public db where(String clazz) throws SQLException {
-        this.clazz = clazz.toLowerCase();
+        this.clazz = "`" + clazz.toLowerCase() + "`";
         return this;
     }
     
@@ -97,14 +101,47 @@ public class db {
         this.conditions = String.join(" && ", conditions);
         return this;
     }
+    
+    public db getLast() {
+        OrderBy("id", true);
+        Limit(1);
+        return this;
+    }
+    
+    public db OrderBy(String column) {
+        orderBy = column;
+        return this;
+    }
+    
+    public db OrderBy(String column, boolean isDesc) {
+        orderBy = "`" + column + "`" + (isDesc ? " desc" : "");
+        return this;
+    }
+    
+    public db Limit(int number) {
+        limit = "limit " + number;
+        return this;
+    }
 
     public ResultSet execute() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        final String query = String.format("select %s from %s where %s", columns, clazz, conditions);
+        final String query = String.format("select %s from %s where %s order by %s %s", columns, clazz, conditions, orderBy, limit);
         return statement.executeQuery(query);
     }
 
     public int update() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         final String query = String.format("insert into %s (%s) values (%s)", clazz, columns , values);
         return statement.executeUpdate(query);
+    }
+    
+    // if false: return -1
+    // else return id
+    public int updateAndGetId() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        update();
+        columns = "id";
+        ResultSet resultSet = getLast().execute();
+        while(resultSet.next()) {
+            return resultSet.getInt("id");
+        }
+        return -1;
     }
 }

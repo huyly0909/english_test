@@ -428,7 +428,7 @@ form-table.tr span {
     text-shadow: 0.5px 0.5px;
 }
 
-td input {
+td input[type='text'], td input[type='submit'] {
     width: 250px;
     height: 25px;
     border: 1px solid black;

@@ -11,6 +11,7 @@ import core.CoreSection.HtmlContent;
 import core.controller.SessionController;
 import core.op.CreateNewQuickTestOp;
 import core.op.GetQuickTestOp;
+import core.util.Booleans;
 import core.util.HtmlBuilder.ButtonBuilder;
 import static core.util.HtmlBuilder.ButtonBuilder.HOME_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
@@ -46,45 +47,47 @@ public class QuickTestController extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
 //        response.setContentType("text/html;charset=UTF-8");
-//        String action = (String) request.getParameter("action");
+        String action = (String) request.getParameter("action");
 //        // After create new quick test
-//        if(action != null && action.equals(CoreAction.CREATE)) {
-//            Question newQuestion = newQuestion(request);
-//            List<Answer> newAnswers = newAnswers(request);
-//            CreateNewQuickTestOp.create(newQuestion, newAnswers);
-//            request.setAttribute("isSuccessful", true);
-//            createNewBasicQuickTestForm(request, response);
-//        } else {
-            boolean isAdvanced = CoreAction.ADVANCED.equals(action);
-//            // If current user is teacher => create new test
-//            // Else do test
+        if(action != null && action.equals(CoreAction.CREATE)) {
+            Question newQuestion = newQuestion(request);
+            List<Answer> newAnswers = newAnswers(request);
+            CreateNewQuickTestOp.create(newQuestion, newAnswers);
+            request.setAttribute("isSuccessful", true);
+            createNewBasicQuickTestForm(request, response);
+        } else {
+//            boolean isAdvanced = CoreAction.ADVANCED.equals(action);
+////            // If current user is teacher => create new test
+////            // Else do test
 //            if (SessionController.isTeacher(request)) {
 //                if(isAdvanced) {
 ////                    createNewAdvancedQuickTestForm(request, response);
 //                } else {
-//                    createNewBasicQuickTestForm(request, response);
+                    createNewBasicQuickTestForm(request, response);
 //                }
 //            } else {
-                createQuickTestForm(isAdvanced, request, response);
+//                createQuickTestForm(isAdvanced, request, response);
 //            }
-//        }
+        }
     }
     
     private Question newQuestion(HttpServletRequest request) {
         return new Question(
-                (String) request.getAttribute(Question.DESCRIPTION.Name()),
-                (Integer) request.getAttribute(Question.QTYPE.Name())
+                request.getParameter(Question.DESCRIPTION.Name()),
+                Integer.parseInt(request.getParameter(Question.QTYPE.Name()))
         );
     }
     
     private List<Answer> newAnswers(HttpServletRequest request) {
-        int answerSize = (Integer) request.getAttribute("answerSize");
+        int answerSize = Integer.parseInt(request.getParameter("answerSize"));
         List<Answer> answers = new ArrayList<>();
                 
-        for (int i = 0; i < answerSize; i++) {
+        for (int i = 0; i <     answerSize; i++) {
+            String description = request.getParameter(Answer.DESCRIPTION.Name() + i);
+            String isCorrect = request.getParameter(Answer.IS_CORRECT.Name() + i);
             answers.add(new Answer(
-                    (String) request.getAttribute(Answer.DESCRIPTION.Name() + i),
-                    (Boolean) request.getAttribute(Answer.IS_CORRECT.Name() + i)
+                    description,
+                    Booleans.checkBox(isCorrect)
             ));
         }
         return answers;
@@ -105,7 +108,7 @@ public class QuickTestController extends HttpServlet {
         // Create test header
         request.setAttribute("testHeader", testHeader("Quick Test"));
         // Get Random 10 questions
-        ArrayList<Question> questionList = GetQuickTestOp.getRandomQuestions(10);
+        ArrayList<Question> questionList = GetQuickTestOp.getRandomQuestions(10, isAdvanced);
         String tenQuestionsHTMLForm = "";
         for (Question question : questionList) {
             tenQuestionsHTMLForm += QuestionHTMLBuilder.build(question, questionList.indexOf(question) + 1, isAdvanced);

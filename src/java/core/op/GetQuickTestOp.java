@@ -22,10 +22,10 @@ import models.tests.QuestionType;
  */
 public class GetQuickTestOp {
 
-    private static ArrayList<Question> getQuestionList() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    private static ArrayList<Question> getQuestionList(boolean isAdvanced) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         // Get list of question
         ResultSet questionSet = new db().where(Question.TYPE)
-                .addConditions(ConditionBuilder.get(Question.QTYPE.Name(), QuestionType.BASIC))
+                .addConditions(ConditionBuilder.get(Question.QTYPE.Name(), isAdvanced ? QuestionType.ADVANCED : QuestionType.BASIC))
                 .execute();
         ArrayList<Question> questionList = new ArrayList<>();
         // Add new question into questions list
@@ -36,18 +36,16 @@ public class GetQuickTestOp {
                     .addConditions(ConditionBuilder.get(Answer.QUESTION_ID.Name(), questionSet.getInt(Question.ID.Name())))
                     .execute();
             while (answerSet.next()) {
-                currentQuestion.addAnswers(
-                        new Answer(answerSet.getString(Answer.QUESTION_ID.Name()),
-                                   Booleans.isTrue(answerSet.getInt(Answer.IS_CORRECT.Name())))
-                );
+                Answer _answer = new Answer(answerSet.getString(Answer.DESCRIPTION.Name()), Booleans.isTrue(answerSet.getInt(Answer.IS_CORRECT.Name())));
+                currentQuestion.addAnswer(_answer);
             }
             questionList.add(currentQuestion);
         }
         return questionList;
     }
 
-    public static ArrayList<Question> getRandomQuestions(int amount) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        ArrayList<Question> allQuestions = getQuestionList();
+    public static ArrayList<Question> getRandomQuestions(int amount, boolean isAdvanced) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        ArrayList<Question> allQuestions = getQuestionList(isAdvanced);
         ArrayList<Question> questions = new ArrayList<>();
         int max = allQuestions.size() - 1;
         // Get random one question

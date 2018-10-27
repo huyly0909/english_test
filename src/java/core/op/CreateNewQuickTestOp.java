@@ -6,6 +6,7 @@
 package core.op;
 
 import core.util.Booleans;
+import core.util.ConditionBuilder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,9 +22,9 @@ public class CreateNewQuickTestOp {
         String description = question.getDescription();
         String type = String.valueOf(question.getType());
         int questionId = new db().where(Question.TYPE)
-                                    .addColumns(Question.allColumns)
-                                    .addValues(description, type)
-                                    .update();
+                  .addColumns(Question.allColumns)
+                  .addValues(description, type)
+                  .updateAndGetId();
         db answerDB = new db();
         for(Answer answer : answers) {
             answerDB.where(Answer.TYPE)
@@ -31,5 +32,6 @@ public class CreateNewQuickTestOp {
                     .addValues(String.valueOf(questionId), answer.getDescription(), String.valueOf(Booleans.convertToInt(answer.isCorrect())))
                     .update();
         }
+        answerDB.close();
     }
 }
