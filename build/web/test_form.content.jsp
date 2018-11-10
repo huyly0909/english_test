@@ -10,7 +10,7 @@
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <script TYPE="text/javascript">
             $(document).ready(function(){
-                if ($("#test-description").text().trim() !== "") {
+                if ($("#test-description").html().trim() !== "") {
                     $("#test-description").removeAttr("style");
                 }
             });
