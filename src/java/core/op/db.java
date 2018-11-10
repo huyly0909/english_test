@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -91,6 +92,11 @@ public class db {
         return this;
     }
     
+    public db addValues(List<String> values) {
+        this.values = "'" + String.join("', '", values) + "'";
+        return this;
+    }
+    
 //    public db addIntValues(int... values) {
 //        String str = String.join(", ", Arrays.toString(values));
 //        intValues = str.substring(1, str.length() - 1);
@@ -101,6 +107,13 @@ public class db {
         this.conditions = String.join(" && ", conditions);
         return this;
     }
+
+    public db addInCondition(String col, String ids) {
+        this.conditions = "`" + col + "` in (" + ids + ")";
+        return this;
+    }
+    
+    
     
     public db getLast() {
         OrderBy("id", true);
@@ -137,11 +150,17 @@ public class db {
     // else return id
     public int updateAndGetId() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         update();
+        // To get the newest id: select `id` from ... order by desc limit 1
         columns = "id";
         ResultSet resultSet = getLast().execute();
         while(resultSet.next()) {
             return resultSet.getInt("id");
         }
         return -1;
+    }
+    
+    public int delete() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        final String query = String.format("delete from %s where %s", clazz, conditions);
+        return statement.executeUpdate(query);
     }
 }

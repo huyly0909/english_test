@@ -10,11 +10,7 @@ package core.CoreSection;
  * @author tinluu
  */
 public class CoreSection {
-    final public static String HOMEJSP = "home.jsp";
-    final public static String LOGINJSP = "login.jsp";
-    final public static String LIST_VIEW_CONTENT_JSP = "list_view.content.jsp";
-    final public static String TEST_FORM_CONTENT_JSP = "list_view.content.jsp";
-    final public static String REGISTERJSP = "register.jsp";
+    final public static String ACCOUNT = "account";
     final public static String HOME = "home";
     final public static String LOGIN = "login";
     final public static String REGISTER = "register";

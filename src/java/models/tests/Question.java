@@ -19,11 +19,14 @@ public class Question {
     final public static Field ID = Field.Int("id");
     final public static Field QTYPE = Field.Int("type");
     final public static Field DESCRIPTION = Field.String("description");
+    final public static Field PARENT_ID = Field.Int("parent_id");
+    private int id;
     private String description;
     private int type;
     private List<Answer> answers;
     // String before int
     final public static Field[] allColumns = { DESCRIPTION, QTYPE };
+    final public static Field[] listViewColumns = { ID, DESCRIPTION, QTYPE };
             
 //    public Question()
 
@@ -36,6 +39,12 @@ public class Question {
     public Question(String description) {
         this.description = description;
         this.type = 0;
+        this.answers = new ArrayList<>();
+    }
+    
+    public Question(int id, String description) {
+        this.id = id;
+        this.description = description;
         this.answers = new ArrayList<>();
     }
     
@@ -65,9 +74,9 @@ public class Question {
         return type;
     }
 
-    public static Question[] getQuickTest() {
-        
-        return null;
+    public int getID () {
+        return id;
     }
+    
     
 }

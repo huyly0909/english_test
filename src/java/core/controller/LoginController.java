@@ -8,6 +8,7 @@ package core.controller;
 
 import core.CoreSection.CoreAction;
 import core.CoreSection.CoreSection;
+import static core.CoreSection.HtmlContent.LOGIN;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -42,17 +43,15 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String action = request.getParameter("action");
-            if (CoreAction.LOGIN.equals(action)) {
-                String userName = request.getParameter("userName");
-                String password = request.getParameter("password");
-                if (!Guest.login(userName, password, request)) {
-                    request.setAttribute("isInvalid", true);
-                }
+        String action = request.getParameter("action");
+        if (CoreAction.LOGIN.equals(action)) {
+            String userName = request.getParameter("userName");
+            String password = request.getParameter("password");
+            if (!Guest.login(userName, password, request)) {
+                request.setAttribute("isInvalid", true);
             }
-            ensureUserConnection(request, response);
         }
+        ensureUserConnection(request, response);
     }
     
     public static void ensureUserConnection (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -68,7 +67,7 @@ public class LoginController extends HttpServlet {
         if (currentUser != null) {
             response.sendRedirect(CoreSection.HOME);
         } else {
-            request.getRequestDispatcher(CoreSection.LOGINJSP).forward(request, response);
+            request.getRequestDispatcher(LOGIN).forward(request, response);
         }
     }
     

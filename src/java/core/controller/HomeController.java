@@ -8,6 +8,7 @@ package core.controller;
 
 import core.CoreSection.CoreAction;
 import core.CoreSection.CoreSection;
+import static core.CoreSection.HtmlContent.HOME;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.REGISTER_BTN;
@@ -50,7 +51,7 @@ public class HomeController extends HttpServlet {
                 topBtn = LOGIN_BTN + REGISTER_BTN;
             }
             request.setAttribute(TOP_BTN_NAME, topBtn);
-            request.getRequestDispatcher(CoreSection.HOMEJSP).forward(request, response);
+            request.getRequestDispatcher(HOME).forward(request, response);
         }
     }
 

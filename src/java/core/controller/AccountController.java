@@ -7,11 +7,11 @@ package core.controller;
  */
 
 import core.CoreSection.CoreSection;
+import static core.CoreSection.HtmlContent.LIST_VIEW_CONTENT_JSP;
+import core.op.GetListViewOp;
 import core.op.db;
-import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.HOME_BTN;
-import static core.util.HtmlBuilder.ButtonBuilder.REGISTER_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.TOP_BTN_NAME;
 import core.util.HtmlBuilder.ListViewBuilder;
 import core.util.HtmlBuilder.WebsiteBuilder;
@@ -43,18 +43,12 @@ public class AccountController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         CurrentUser currentUser = SessionController.getCurrentUser(request);
         request.setAttribute("currentUser", currentUser);
-//        if (currentUser != null) {
-            ResultSet resultSet = new db().where(User.TYPE).execute();
-            String body = ListViewBuilder.build(resultSet, User.allColumns);
-            request.setAttribute("type", User.TYPE);
-            request.setAttribute("actionBtn", ListViewBuilder.EDIT_BTN + ListViewBuilder.DELETE_BTN + ListViewBuilder.ADD_BTN);
-            request.setAttribute("listHeader", WebsiteBuilder.Header(HEADER));
-            request.setAttribute("listBody", body);
-            request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
-            request.getRequestDispatcher(CoreSection.LIST_VIEW_CONTENT_JSP).forward(request, response);
-//        } else {
-//            response.sendRedirect(CoreSection.HOME);
-//        }
+        if (currentUser != null) {
+            ResultSet resultSet = GetListViewOp.records(User.TYPE);
+            ListViewBuilder.display(request, response, User.TYPE, HEADER, resultSet, User.allColumns);
+        } else {
+            response.sendRedirect(CoreSection.HOME);
+        }
     }
 
     @Override

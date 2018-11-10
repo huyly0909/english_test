@@ -35,6 +35,7 @@ public class User {
     private String address;
     private int phone;
     final public static Field[] allColumns = { ID, USERNAME, FULLNAME, AGE, ADDRESS, ROLEID, PHONE, SALARY };
+    final public static Field[] fullColumns = { USERNAME, PASSWORD, FULLNAME, AGE, ADDRESS, ROLEID, PHONE, SALARY };
     
     public void logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

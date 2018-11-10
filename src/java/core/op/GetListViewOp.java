@@ -20,7 +20,14 @@ import models.tests.QuestionType;
  */
 public class GetListViewOp {
     
-    private static ResultSet records(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public static ResultSet records(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         return new db().where(type).execute();
+    }
+    
+    public static ResultSet records(String type, String... condition) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        return new db()
+                .where(type)
+                .addConditions(condition)
+                .execute();
     }
 }

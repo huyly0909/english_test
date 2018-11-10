@@ -10,17 +10,21 @@ import core.CoreSection.CoreAction;
 import core.CoreSection.HtmlContent;
 import core.controller.SessionController;
 import core.op.CreateNewQuickTestOp;
+import core.op.GetListViewOp;
 import core.op.GetQuickTestOp;
 import core.util.Booleans;
+import core.util.ConditionBuilder;
 import core.util.HtmlBuilder.ButtonBuilder;
 import static core.util.HtmlBuilder.ButtonBuilder.HOME_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.REGISTER_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.TOP_BTN_NAME;
+import core.util.HtmlBuilder.ListViewBuilder;
 import core.util.HtmlBuilder.QuestionHTMLBuilder;
 import core.util.field.Field;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -45,6 +49,8 @@ import models.users.CurrentUser;
 public class QuickTestController extends HttpServlet {
     
     final public static String CREATE_TEST_FORM = "createTestForm";
+    final private static String ADVANCED_HEADER = "Advanced Quick Tests";
+    final private static String BASIC_HEADER = "Basic Quick Tests";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
@@ -56,18 +62,25 @@ public class QuickTestController extends HttpServlet {
             CreateNewQuickTestOp.create(newQuestion, newAnswers);
             request.setAttribute("isSuccessful", true);
             int type = Integer.parseInt(request.getParameter("type"));
-            boolean isAdvanced = type == QuestionType.ADVANCED;
-            createNewQuickTestForm(isAdvanced, request, response);
+            createNewQuickTestForm(type, request, response);
         } else {
             boolean isAdvanced = CoreAction.ADVANCED.equals(action);
-            // If current user is teacher => create new test
+            // If current user is teacher => display quick test
             // Else do test
             if (SessionController.isTeacher(request)) {
-                createNewQuickTestForm(isAdvanced, request, response);
+                displayQuickTestListView(request, response, isAdvanced);
             } else {
-                getQuickTestForm(isAdvanced, request, response);
+                getQuickTests(isAdvanced, request, response);
             }
         }
+    }
+    
+    public static void displayQuickTestListView (HttpServletRequest request, HttpServletResponse response, boolean isAdvanced) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+                String header = isAdvanced ? ADVANCED_HEADER : BASIC_HEADER;
+                int type = isAdvanced ? QuestionType.ADVANCED : QuestionType.BASIC;
+                // Get list of question
+                ResultSet resultSet = GetListViewOp.records(Question.TYPE, ConditionBuilder.get(Question.QTYPE.Name(), type));
+                ListViewBuilder.display(request, response, Question.TYPE, type, header, resultSet, Question.listViewColumns);
     }
     
     private Question newQuestion(HttpServletRequest request) {
@@ -92,7 +105,8 @@ public class QuickTestController extends HttpServlet {
         return answers;
     }
     
-    public void createNewQuickTestForm(boolean isAdvanced, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+    public void createNewQuickTestForm(int type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        boolean isAdvanced = type == QuestionType.ADVANCED;
         String header = String.format("Create New %s Quick Test", isAdvanced ? "Advanced" : "Basic");
         request.setAttribute("formHeader", header);
         // generate form
@@ -105,7 +119,7 @@ public class QuickTestController extends HttpServlet {
         return "<h1 class='test-form-title'>" + header + "</h1>";
     }
 
-    public void getQuickTestForm(boolean isAdvanced, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+    public void getQuickTests(boolean isAdvanced, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         // Create test header
         request.setAttribute("testHeader", testHeader("Quick Test"));
         // Get Random 10 questions

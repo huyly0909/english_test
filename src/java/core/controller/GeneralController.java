@@ -9,6 +9,9 @@ package core.controller;
 import core.CoreSection.CoreAction;
 import core.CoreSection.CoreSection;
 import core.CoreSection.HtmlContent;
+import static core.controller.tests.QuickTestController.displayQuickTestListView;
+import core.op.CreateOp;
+import core.op.DeleteOp;
 import static core.util.HtmlBuilder.ButtonBuilder.HOME_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
@@ -28,9 +31,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.tests.Answer;
+import models.tests.Question;
+import models.tests.QuestionType;
 import models.users.CurrentUser;
 import models.users.Guest;
 import models.users.Role;
+import models.users.User;
 
 /**
  *
@@ -38,16 +45,65 @@ import models.users.Role;
  */
 @WebServlet(urlPatterns = {"/general_controller"})
 public class GeneralController extends HttpServlet {
+    final public static String CREATE_USER_HEADER = "Create New User";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = (String) request.getAttribute("action");
+        String action = request.getParameter("action");
+        String type = request.getParameter("type");
         if (CoreAction.ADD.equals(action)) {
-            request.setAttribute("formHeader", "Create New User");
-            request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
-            request.getRequestDispatcher(HtmlContent.CREATE_NEW_BASIC_TEST_FORM).forward(request, response);
+            if (Question.TYPE.equals(type)) { // Add new question
+                int Qtype = Integer.parseInt(request.getParameter("question_type"));
+                // For quick_test
+                if(Qtype == (QuestionType.ADVANCED) || Qtype == (QuestionType.BASIC)) {
+                    createNewQuickTestForm(Qtype, request, response);
+                }
+            } else { // Add new Others
+                String buttons = "";
+                String form = "";
+                String header = "";
+                // Pop-up the form when request is add new account
+                if (User.TYPE.equals(type)) {
+                    buttons = LOGOUT_BTN + HOME_BTN;
+                    form = HtmlContent.CREATE_NEW_ACCOUNT_FORM;
+                    header = CREATE_USER_HEADER;
+                }
+                request.setAttribute("type", type);
+                request.setAttribute("formHeader", header);
+                request.setAttribute(TOP_BTN_NAME, buttons);
+                request.getRequestDispatcher(form).forward(request, response);
+            }
+        } else{
+            String coreSection = "";
+            if (User.TYPE.equals(type)) {
+                    coreSection = CoreSection.ACCOUNT;
+            }
+            if (CoreAction.CREATE.equals(action)) { // Create after submit creation form
+                CreateOp.create(type, request);
+            } else if (CoreAction.DELETE.equals(action)) {
+                DeleteOp.execute(type, request.getParameter("ids"));
+                if (Question.TYPE.equals(type)) {
+                    int Qtype = Integer.parseInt(request.getParameter("question_type"));
+                    boolean isAdvanced = Qtype == QuestionType.ADVANCED;
+                    DeleteOp.execute(Answer.TYPE, Answer.QUESTION_ID, request.getParameter("ids"));
+                    displayQuickTestListView(request, response, isAdvanced);
+                }
+            }
+            if (coreSection != "") {
+                response.sendRedirect(coreSection);
+            }
         }
+    }
+    
+    public void createNewQuickTestForm(int type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        boolean isAdvanced = type == QuestionType.ADVANCED;
+        String header = String.format("Create New %s Quick Test", isAdvanced ? "Advanced" : "Basic");
+        request.setAttribute("formHeader", header);
+        // generate form
+        request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
+        String form = isAdvanced ? HtmlContent.CREATE_NEW_ADVANCED_TEST_FORM : HtmlContent.CREATE_NEW_BASIC_TEST_FORM;
+        request.getRequestDispatcher(form).forward(request, response);
     }
 
     @Override

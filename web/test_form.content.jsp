@@ -9,6 +9,12 @@
         <link rel="stylesheet" href="css/style.css">
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <script TYPE="text/javascript">
+            $(document).ready(function(){
+                if ($("#test-description").text().trim() !== "") {
+                    $("#test-description").removeAttr("style");
+                }
+            });
+
             function checkResult() {
                 var total = 0;
                 var questions_size = $(".question-container").length;
@@ -68,10 +74,15 @@
     </head>
     <body>
         ${topBtn}
-        <div class="test-form-container header">
+        <div class="test-form-container">
             ${testHeader}
         </div>
-        <div class="test-form-container body">
+        
+        <div id="test-description" class="test-form-container" style="display: none;">
+            ${testDescription}
+        </div>
+        
+        <div class="test-form-container">    
             ${testForm}
         </div>
         <!--<div class="test-form-container footer">-->

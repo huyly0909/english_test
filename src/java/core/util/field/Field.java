@@ -79,4 +79,8 @@ public class Field {
     public boolean isDouble() {
         return "double".equals(type);
     }
+    
+    public boolean isNumber() {
+        return isInt() || isDouble();
+    }
 }
