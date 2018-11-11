@@ -122,10 +122,9 @@ public class TestFormBuilder {
         String fullForm = TitleAndDescription + (type.equals(Reading.TYPE) ? ReadingTestDescription : ListeningTestDescription);
         for (int i = 0; i <= 9; i++) {
             fullForm += Strings.format(QuestionHtml, "questionIndex", String.valueOf(i + 1),
-                                                     "index", String.valueOf(i),
-                                                     "testType", type);
+                                                     "index", String.valueOf(i));
         }
-        fullForm += SubmitBtn;
+        fullForm += Strings.format(SubmitBtn, "testType", type);
         return Strings.format(TestForm, "body", fullForm);
     }
 }

@@ -20,7 +20,7 @@ import models.tests.Reading;
 public class CreateNewTestOp {
     public static void create(Reading test) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         db db = new db();
-        int testId = new db().where(Question.TYPE)
+        int testId = new db().where(Reading.TYPE)
                   .addColumns(Reading.allColumns)
                   .addValues(test.getTitle(),test.getDescription())
                   .updateAndGetId();
@@ -29,7 +29,7 @@ public class CreateNewTestOp {
     
         public static void create(Listening test) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         db db = new db();
-        int testId = new db().where(Question.TYPE)
+        int testId = new db().where(Listening.TYPE)
                   .addColumns(Listening.allColumns)
                   .addValues(test.getTitle(), test.getUrl())
                   .updateAndGetId();

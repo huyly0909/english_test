@@ -128,18 +128,19 @@ public class TestController extends HttpServlet {
     private Listening newListeningTest(HttpServletRequest request) {
         return new Listening(
                     request.getParameter(Listening.TITLE.Name()),
-                    request.getParameter(Listening.URL.Name()),
+                    request.getParameter("description"),
                     newQuestions(request)
                 );
     }
 
     private List<Question> newQuestions(HttpServletRequest request) {
         List<Question> questions = new ArrayList<>();
+        int questionType = QuestionType.get((String) request.getParameter(Question.QTYPE.Name()));
         for (int i = 0; i <= 9; i++) {
             questions.add(
                     new Question(
                         request.getParameter(Question.DESCRIPTION.Name() + "_q" + i), // description_q0, description_q1,..., description_q9
-                        Integer.parseInt(request.getParameter(Question.QTYPE.Name())),
+                        questionType,
                         newAnswers(request, i)
                     )
             );
@@ -148,12 +149,10 @@ public class TestController extends HttpServlet {
     }
     
     private List<Answer> newAnswers(HttpServletRequest request, int questionIndex) {
-        int answerSize = Integer.parseInt(request.getParameter("answerSize"));
         List<Answer> answers = new ArrayList<>();
-                
-        for (int i = 0; i < answerSize; i++) {
+        for (int i = 0; i < 4; i++) {
             String description = request.getParameter(Answer.DESCRIPTION.Name() + i + "_q" + questionIndex);
-            String isCorrect = request.getParameter(Answer.IS_CORRECT.Name() + i);
+            String isCorrect = request.getParameter(Answer.IS_CORRECT.Name() + i + "_q" + questionIndex);
             answers.add(new Answer(
                     description,
                     Booleans.checkBox(isCorrect)
@@ -163,7 +162,6 @@ public class TestController extends HttpServlet {
     }
     
     private void getReadingTest(HttpServletRequest request, HttpServletResponse response, int id) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException, ServletException, IOException {
-        // Get Random 10 questions
         Reading test = GetReadingTestOp.execute(id);
         // Create test header
         request.setAttribute("testHeader", testHeader(test.getTitle()));
@@ -184,7 +182,6 @@ public class TestController extends HttpServlet {
     }
     
     private void getListeningTest(HttpServletRequest request, HttpServletResponse response, int id) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException, ServletException, IOException {
-        // Get Random 10 questions
         Listening test = GetListeningTestOp.execute(id);
         // Create test header
         request.setAttribute("testHeader", testHeader(test.getTitle()));

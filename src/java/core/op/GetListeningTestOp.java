@@ -34,7 +34,7 @@ public class GetListeningTestOp {
         }
         // Get question from Listening test.
         resultSet = db.where(Question.TYPE)
-                .addConditions(ConditionBuilder.get(Question.PARENT_ID.Name(), id), ConditionBuilder.get(Question.QTYPE.Name(), QuestionType.READING))
+                .addConditions(ConditionBuilder.get(Question.PARENT_ID.Name(), id), ConditionBuilder.get(Question.QTYPE.Name(), QuestionType.LISTENING))
                 .execute();
         // Add question into Listening test: ID is used to get Answer
         while(resultSet.next()) {

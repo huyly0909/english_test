@@ -14,4 +14,19 @@ public class QuestionType {
     final public static int BASIC = 1;
     final public static int READING = 2;
     final public static int LISTENING = 3;
+    
+    public static int get(String type) {
+        switch (type) {
+            case "advanced":
+                return ADVANCED;
+            case "basic":
+                return BASIC;
+            case Reading.TYPE:
+                return READING;
+            case Listening.TYPE:
+                return LISTENING;
+            default:
+                return -1;
+        }
+    }
 }
