@@ -418,7 +418,7 @@ td input {
     font-family: sans-serif;
 }
 
-td input[type='radio'] {
+td input[type='radio'], td input[type='checkbox'] {
     width: 15px;
     height: unset;
 }

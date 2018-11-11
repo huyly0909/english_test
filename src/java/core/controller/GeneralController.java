@@ -17,6 +17,7 @@ import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.REGISTER_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.TOP_BTN_NAME;
+import core.util.HtmlBuilder.TestFormBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -32,8 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.tests.Answer;
+import models.tests.Listening;
 import models.tests.Question;
 import models.tests.QuestionType;
+import models.tests.Reading;
 import models.users.CurrentUser;
 import models.users.Guest;
 import models.users.Role;
@@ -53,28 +56,36 @@ public class GeneralController extends HttpServlet {
         String action = request.getParameter("action");
         String type = request.getParameter("type");
         if (CoreAction.ADD.equals(action)) {
-            if (Question.TYPE.equals(type)) { // Add new question
-                int Qtype = Integer.parseInt(request.getParameter("question_type"));
-                // For quick_test
-                if(Qtype == (QuestionType.ADVANCED) || Qtype == (QuestionType.BASIC)) {
-                    createNewQuickTestForm(Qtype, request, response);
-                }
-            } else { // Add new Others
-                String buttons = "";
-                String form = "";
-                String header = "";
-                // Pop-up the form when request is add new account
-                if (User.TYPE.equals(type)) {
-                    buttons = LOGOUT_BTN + HOME_BTN;
-                    form = HtmlContent.CREATE_NEW_ACCOUNT_FORM;
-                    header = CREATE_USER_HEADER;
-                }
-                request.setAttribute("type", type);
-                request.setAttribute("formHeader", header);
-                request.setAttribute(TOP_BTN_NAME, buttons);
-                request.getRequestDispatcher(form).forward(request, response);
+            switch (type) {
+                case Question.TYPE: // add new quick test
+                    int Qtype = Integer.parseInt(request.getParameter("question_type"));
+                    // For quick_test
+//                    if(Qtype == (QuestionType.ADVANCED) || Qtype == (QuestionType.BASIC)) {
+                        createNewQuickTestForm(Qtype, request, response);
+//                    }
+                    break;
+                case Reading.TYPE: // new Reading test
+                    createNewTestForm(request, response, Reading.TYPE);
+                    break;
+                case Listening.TYPE: // new Listening test
+                    createNewTestForm(request, response, Listening.TYPE);
+                    break;
+                default:
+                    String buttons = "";
+                    String form = "";
+                    String header = "";
+                    // Pop-up the form when request is add new account
+                    if (User.TYPE.equals(type)) {
+                        buttons = LOGOUT_BTN + HOME_BTN;
+                        form = HtmlContent.CREATE_NEW_ACCOUNT_FORM;
+                        header = CREATE_USER_HEADER;
+                    }
+                    request.setAttribute("type", type);
+                    request.setAttribute("formHeader", header);
+                    request.setAttribute(TOP_BTN_NAME, buttons);
+                    request.getRequestDispatcher(form).forward(request, response);
             }
-        } else{
+        } else {
             String coreSection = "";
             if (User.TYPE.equals(type)) {
                     coreSection = CoreSection.ACCOUNT;
@@ -90,7 +101,7 @@ public class GeneralController extends HttpServlet {
                     displayQuickTestListView(request, response, isAdvanced);
                 }
             }
-            if (coreSection != "") {
+            if (coreSection.equals("")) {
                 response.sendRedirect(coreSection);
             }
         }
@@ -103,6 +114,17 @@ public class GeneralController extends HttpServlet {
         // generate form
         request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
         String form = isAdvanced ? HtmlContent.CREATE_NEW_ADVANCED_TEST_FORM : HtmlContent.CREATE_NEW_BASIC_TEST_FORM;
+        request.getRequestDispatcher(form).forward(request, response);
+    }
+    
+    public void createNewTestForm(HttpServletRequest request, HttpServletResponse response, String type) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        String header = type.equals(Reading.TYPE) ? "Create New Reading Test" : "Create New Listening Test";
+        request.setAttribute("formHeader", header);
+        request.setAttribute("testType", type);
+        // generate form
+        request.setAttribute("formBody", TestFormBuilder.build(type));
+        request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
+        String form = HtmlContent.CREATE_NEW_TEST_FORM;
         request.getRequestDispatcher(form).forward(request, response);
     }
 

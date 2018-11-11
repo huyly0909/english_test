@@ -57,9 +57,7 @@ public class QuickTestController extends HttpServlet {
         String action = (String) request.getParameter("action");
         // After create new quick test
         if(action != null && action.equals(CoreAction.CREATE)) {
-            Question newQuestion = newQuestion(request);
-            List<Answer> newAnswers = newAnswers(request);
-            CreateNewQuickTestOp.create(newQuestion, newAnswers);
+            CreateNewQuickTestOp.create(newQuestion(request));
             request.setAttribute("isSuccessful", true);
             int type = Integer.parseInt(request.getParameter("type"));
             createNewQuickTestForm(type, request, response);
@@ -86,7 +84,8 @@ public class QuickTestController extends HttpServlet {
     private Question newQuestion(HttpServletRequest request) {
         return new Question(
                 request.getParameter(Question.DESCRIPTION.Name()),
-                Integer.parseInt(request.getParameter(Question.QTYPE.Name()))
+                Integer.parseInt(request.getParameter(Question.QTYPE.Name())),
+                newAnswers(request)
         );
     }
     

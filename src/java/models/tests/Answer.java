@@ -18,6 +18,7 @@ public class Answer {
     final public static Field QUESTION_ID = Field.Int("question_id");
     final public static Field DESCRIPTION = Field.String("description");
     final public static Field IS_CORRECT = Field.Boolean("is_correct");
+    final public static Field[] allCreateColumns = { QUESTION_ID, DESCRIPTION, IS_CORRECT };
     final public static Field[] allColumns = { QUESTION_ID, DESCRIPTION, IS_CORRECT };
     private String description;
     private boolean isCorrect;

@@ -35,10 +35,7 @@ public class db {
     private String limit;
     
     public db() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        columns = "*";
-        conditions = "1";
-        limit = "";
-        orderBy = "id";
+        reset();
         connectDatabase();
     }
     
@@ -55,6 +52,14 @@ public class db {
     
     public void close() throws SQLException {
         connection.close();
+    }
+    
+    public void reset() {
+        columns = "*";
+        conditions = "1";
+        limit = "";
+        orderBy = "id";
+        values = "";
     }
     
     public db find(String clazz) throws SQLException {

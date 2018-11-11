@@ -18,15 +18,13 @@ import models.tests.Question;
  * @author tinluu
  */
 public class CreateNewQuickTestOp {
-    public static void create(Question question, List<Answer> answers) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        String description = question.getDescription();
-        String type = String.valueOf(question.getType());
+    public static void create(Question question) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         int questionId = new db().where(Question.TYPE)
                   .addColumns(Question.allColumns)
-                  .addValues(description, type)
+                  .addValues(question.getDescription(), String.valueOf(question.getType()))
                   .updateAndGetId();
         db answerDB = new db();
-        for(Answer answer : answers) {
+        for(Answer answer : question.getAnswers()) {
             answerDB.where(Answer.TYPE)
                     .addColumns(Answer.allColumns)
                     .addValues(String.valueOf(questionId), answer.getDescription(), String.valueOf(Booleans.convertToInt(answer.isCorrect())))

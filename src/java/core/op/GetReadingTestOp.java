@@ -28,7 +28,7 @@ public class GetReadingTestOp {
         // Get Reading test.
         Reading test = new Reading();
         while (resultSet.next()) {
-            test.setDescrition(resultSet.getString(Reading.DESCRIPTION.Name()));
+            test.setDescription(resultSet.getString(Reading.DESCRIPTION.Name()));
             test.setTitle(resultSet.getString(Reading.TITLE.Name()));
             break;
         }

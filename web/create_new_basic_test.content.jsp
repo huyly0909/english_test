@@ -108,7 +108,6 @@
                             <input type="hidden" value="1" name="type">
                             <input type="hidden" value="4" name="answerSize">
                             <input type="hidden" value="create" name="action">
-                            <input type="hidden" value="1" name="type">
                             <input type="submit" value="Create">
                         </td>
                     </tr>

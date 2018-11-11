@@ -19,6 +19,7 @@ public class Reading {
     final public static Field TITLE = Field.String("title");
     final public static Field DESCRIPTION = Field.String("description");
     
+    final public static Field[] listViewColumns = {ID, TITLE, DESCRIPTION};
     final public static Field[] allColumns = {TITLE, DESCRIPTION};
     
     private String title;
@@ -29,6 +30,12 @@ public class Reading {
         this.title = title;
         this.descrition = descrition;
         this.questions = new ArrayList<>();
+    }
+    
+    public Reading(String title, String descrition, List<Question> questions) {
+        this.title = title;
+        this.descrition = descrition;
+        this.questions = questions;
     }
 
     public Reading() {
@@ -51,11 +58,11 @@ public class Reading {
         this.title = title;
     }
 
-    public void setDescrition(String descrition) {
+    public void setDescription(String descrition) {
         this.descrition = descrition;
     }
 
-    public String getDescrition() {
+    public String getDescription() {
         return descrition;
     }
     

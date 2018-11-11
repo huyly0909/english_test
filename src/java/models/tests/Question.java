@@ -24,12 +24,10 @@ public class Question {
     private String description;
     private int type;
     private List<Answer> answers;
-    // String before int
     final public static Field[] allColumns = { DESCRIPTION, QTYPE };
+    final public static Field[] allCreateColumns = { DESCRIPTION, QTYPE, PARENT_ID };
     final public static Field[] listViewColumns = { ID, DESCRIPTION, QTYPE };
             
-//    public Question()
-
     public Question(String description, int type, List<Answer> answers) {
         this.description = description;
         this.type = type;

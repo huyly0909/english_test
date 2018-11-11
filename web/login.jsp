@@ -28,7 +28,7 @@
         <br>
         <form method="post" action="login" name="loginForm" onsubmit="return checkInput()">
             <div class="login">
-                <input type="text" placeholder="Username" name="userName" value="student" ><br>
+                <input type="text" placeholder="Username" name="userName" value="tinluu" ><br>
                 <input type="password" placeholder="Password" name="password" value="123456"><br>
                 <input type='text' id="invalidValidMessage" class="invalidAccountMessage" readonly value='Username or password is incorrect!' style="display: none;"><br>
                 <input type="hidden" value="login" name="action">

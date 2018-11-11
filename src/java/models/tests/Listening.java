@@ -19,7 +19,7 @@ public class Listening {
     final public static Field TITLE = Field.String("title");
     final public static Field URL = Field.String("url");
 
-    final public static Field[] listViewColumns = {ID, TITLE, URL};
+    final public static Field[] listViewColumns = {ID, TITLE};
     final public static Field[] allColumns = {TITLE, URL};
 
     private String title;
@@ -30,6 +30,12 @@ public class Listening {
         this.title = title;
         this.url = url;
         this.questions = new ArrayList<>();
+    }
+    
+    public Listening(String title, String url, List<Question> questions) {
+        this.title = title;
+        this.url = url;
+        this.questions = questions;
     }
 
     public Listening() {
