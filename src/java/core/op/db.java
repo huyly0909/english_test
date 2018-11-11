@@ -145,6 +145,10 @@ public class db {
         final String query = String.format("select %s from %s where %s order by %s %s", columns, clazz, conditions, orderBy, limit);
         return statement.executeQuery(query);
     }
+    
+    private String values() {
+        return values.replace("'", "\'");
+    }
 
     public int update() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         final String query = String.format("insert into %s (%s) values (%s)", clazz, columns , values);

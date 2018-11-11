@@ -107,7 +107,7 @@ public class GeneralController extends HttpServlet {
         }
     }
     
-    public void createNewQuickTestForm(int type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+    public static void createNewQuickTestForm(int type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         boolean isAdvanced = type == QuestionType.ADVANCED;
         String header = String.format("Create New %s Quick Test", isAdvanced ? "Advanced" : "Basic");
         request.setAttribute("formHeader", header);
@@ -117,7 +117,7 @@ public class GeneralController extends HttpServlet {
         request.getRequestDispatcher(form).forward(request, response);
     }
     
-    public void createNewTestForm(HttpServletRequest request, HttpServletResponse response, String type) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+    public static void createNewTestForm(HttpServletRequest request, HttpServletResponse response, String type) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
         String header = type.equals(Reading.TYPE) ? "Create New Reading Test" : "Create New Listening Test";
         request.setAttribute("formHeader", header);
         request.setAttribute("testType", type);

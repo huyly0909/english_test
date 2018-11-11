@@ -9,6 +9,7 @@ package core.controller.tests;
 import core.CoreSection.CoreSection;
 import core.CoreSection.HtmlContent;
 import static core.controller.AccountController.HEADER;
+import core.controller.GeneralController;
 import core.controller.SessionController;
 import static core.controller.tests.QuickTestController.testHeader;
 import core.op.CreateNewTestOp;
@@ -106,10 +107,12 @@ public class TestController extends HttpServlet {
                 case CREATE_READING:
                     CreateNewTestOp.create(newReadingTest(request));
                     request.setAttribute("isSuccessful", true);
+                    GeneralController.createNewTestForm(request, response, Reading.TYPE);
                     break;
                 case CREATE_LISTENING:
                     CreateNewTestOp.create(newListeningTest(request));
                     request.setAttribute("isSuccessful", true);
+                    GeneralController.createNewTestForm(request, response, Listening.TYPE);
                     break;
                 default:
                     break;

@@ -6,8 +6,6 @@ package core.controller;
  * and open the template in the editor.
  */
 
-import core.CoreSection.CoreAction;
-import core.CoreSection.CoreSection;
 import static core.CoreSection.HtmlContent.HOME;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGIN_BTN;
 import static core.util.HtmlBuilder.ButtonBuilder.LOGOUT_BTN;
@@ -17,8 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -26,10 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.users.CurrentUser;
-import models.users.Guest;
-import models.users.Role;
 
 /**
  *
