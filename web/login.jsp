@@ -26,7 +26,7 @@
             <div>English <span>Test</span></div>
         </div>
         <br>
-        <form method="post" action="login" name="loginForm" onsubmit="return checkInput()">
+        <form method="post" action="login" name="loginForm">
             <div class="login">
                 <input type="text" placeholder="Username" name="userName" value="tinluu" ><br>
                 <input type="password" placeholder="Password" name="password" value="123456"><br>

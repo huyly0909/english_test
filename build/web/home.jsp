@@ -34,6 +34,9 @@
                 if (option === "advanced" && !checkPermission("advanced quick test")) {
                     return false;
                 }
+                $("input[name='quickTestOptions']").attr("value", option);
+                $("form[name='quickTestOptions']").submit();
+                return true;
             }
         </script>
     </head>
