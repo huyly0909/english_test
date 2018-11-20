@@ -51,7 +51,7 @@ public class GetQuickTestOp {
         // Get random one question
         // if questions does not contain this question => add
         // else ignore.
-        while (questions.size() <= amount - 1) {
+        while (questions.size() < amount) {
             final Question question = allQuestions.get(Ints.getRandomInt(max));
             if (!questions.contains(question)) {
                 questions.add(question);

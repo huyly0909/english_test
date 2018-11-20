@@ -16,10 +16,10 @@ import java.util.List;
 public class Listening {
     final public static String TYPE = "listening";
     final public static Field ID = Field.Int("id");
-    final public static Field TITLE = Field.String("title");
+    final public static Field TITLE = Field.String("title").clickable();
     final public static Field URL = Field.String("url");
 
-    final public static Field[] listViewColumns = {ID, TITLE};
+    final public static Field[] listViewColumns = { ID, TITLE };
     final public static Field[] allColumns = {TITLE, URL};
 
     private String title;

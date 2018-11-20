@@ -123,11 +123,11 @@ public class QuickTestController extends HttpServlet {
         request.setAttribute("testHeader", testHeader("Quick Test"));
         // Get Random 10 questions
         ArrayList<Question> questionList = GetQuickTestOp.getRandomQuestions(10, isAdvanced);
-        String tenQuestionsHTMLForm = "";
+        String questionsHTMLForm = "";
         for (Question question : questionList) {
-            tenQuestionsHTMLForm += QuestionHTMLBuilder.build(question, questionList.indexOf(question) + 1, isAdvanced);
+            questionsHTMLForm += QuestionHTMLBuilder.build(question, questionList.indexOf(question) + 1, isAdvanced);
         }
-        String fullQuicktest = tenQuestionsHTMLForm 
+        String fullQuicktest = questionsHTMLForm 
                 + ButtonBuilder.SUBMIT_BTN 
                 + ButtonBuilder.TOTAL_CORE
                 + ButtonBuilder.continueBtn("quick_test") 

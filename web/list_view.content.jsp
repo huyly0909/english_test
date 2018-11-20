@@ -25,7 +25,7 @@
                 if(testsArr.indexOf(type)) {
                     $("form[name='listViewForm']").attr("action", "test");
                 }
-                $("input[name='action']").attr("value", "do" + type); // doReading, doWriting...
+                $("input[name='action']").attr("value", "do" + type); // doreading, dowriting...
                 $("form[name='listViewForm']").submit();
             }
             
@@ -59,7 +59,7 @@
     </head>
     <body>
         ${topBtn}
-        <form method="post" action="general_controller" name="listViewForm">
+        <form method="post" action="general_controller" name="listViewForm" style="display: none;">
             <input type="text" value="${type}" name="type">
             <input type="text" value="${questionType}" name="question_type">
             <input type="text" name="ids">

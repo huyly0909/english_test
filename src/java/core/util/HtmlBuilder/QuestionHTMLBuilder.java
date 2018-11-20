@@ -52,9 +52,14 @@ public class QuestionHTMLBuilder {
                 "<div class='correct-answer' style='display: none'>Correct Answer: <span class='bold'>{correct_answer}</span></div>" +
             "</div>" +
             "<br/>";
+        try {
+            correctAnswer = correctAnswer.substring(0, correctAnswer.length() - 2);
+        } catch (StringIndexOutOfBoundsException ex) {
+            System.out.println("Question " + i + " has not correc answer.");
+        }
         return Strings.format(template, "index", String.valueOf(i),
                                         "answers", answersHTML,
                                         "description", question.getDescription(),
-                                        "correct_answer", correctAnswer.substring(0, correctAnswer.length() - 2)); // remove ", " at the end
+                                        "correct_answer", correctAnswer); // remove ", " at the end
     }
 }

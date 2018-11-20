@@ -68,19 +68,23 @@ public class ListViewBuilder {
     if (headerChecker) {
         rows += HEADER_CHECKER;
     }
+//    boolean hasIdCol = false;
     for (Field field : columns) {
+//        if (!hasIdCol && "id".equals(field.Name())) { // check do we have id column? id column always is the first col
+//            hasIdCol = true;
+//        }
         String style = field.isString() ? STR_TD_STYLE : NUMBER_TD_STYLE;
         rows += String.format(COL_HEADER, style, field.Label());
     }
     // Add details rows
+    int id = 1; // id
     while (resultSet.next()) {
       String cols = "";
       if (headerChecker) {
         cols = String.format(ROW_CHECKER, resultSet.getInt(User.ID.Name()));
       }
-      int i = 0;
       for (Field field : columns) {
-        cols += buildCol(resultSet, field, i++);
+        cols += field.isId() ? generateColHtml(id++, NUMBER_TD_STYLE) : buildCol(resultSet, field);
       }
       rows += String.format(ROW, cols);
     }
@@ -88,17 +92,21 @@ public class ListViewBuilder {
     return String.format(TABLE, rows);
   }
 
-  public static String buildCol(ResultSet resultSet, Field field, int index) throws SQLException {
+  public static String buildCol(ResultSet resultSet, Field field) throws SQLException {
     String val = "";
     String colName = field.Name();
     if (field.isInt()) {
         return generateColHtml(resultSet.getInt(colName), NUMBER_TD_STYLE);
     } else if (field.isDouble()) {
         return generateColHtml((field.isMoney() ? "$" : "") + resultSet.getDouble(colName), NUMBER_TD_STYLE);
-    } else if (index == 1) {
+    } else if (field.isClickable()) {
         return generateClickableColHtml(resultSet.getString(colName), resultSet.getInt("id"), STR_TD_STYLE);
     }
     return generateColHtml(resultSet.getString(colName), STR_TD_STYLE);
+  }
+  
+  public static String buildIdCol(int id) throws SQLException {
+    return generateColHtml(id, NUMBER_TD_STYLE);
   }
   
   private static String generateColHtml(String val, String style) {

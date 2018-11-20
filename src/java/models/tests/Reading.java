@@ -16,7 +16,7 @@ import java.util.List;
 public class Reading {
     final public static String TYPE = "reading";
     final public static Field ID = Field.Int("id");
-    final public static Field TITLE = Field.String("title");
+    final public static Field TITLE = Field.String("title").clickable();
     final public static Field DESCRIPTION = Field.String("description");
     
     final public static Field[] listViewColumns = {ID, TITLE, DESCRIPTION};

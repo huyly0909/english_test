@@ -16,6 +16,7 @@ public class Field {
     protected String label;
     protected String type;
     protected boolean isMoney;
+    protected boolean isClickable;
 
     public Field(String name, String label, String type) {
         this.name = name;
@@ -59,6 +60,15 @@ public class Field {
         this.isMoney = true;
         return this;
     }
+    
+    public Field clickable() {
+        isClickable = true;
+        return this;
+    }
+    
+    public boolean isClickable() {
+        return isClickable;
+    }
 
     public String Name() {
         return name;
@@ -82,5 +92,9 @@ public class Field {
     
     public boolean isNumber() {
         return isInt() || isDouble();
+    }
+    
+    public boolean isId() {
+        return "id".equals(name);
     }
 }

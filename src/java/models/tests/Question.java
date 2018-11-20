@@ -18,7 +18,7 @@ public class Question {
     final public static String TYPE = "question";
     final public static Field ID = Field.Int("id");
     final public static Field QTYPE = Field.Int("type");
-    final public static Field DESCRIPTION = Field.String("description");
+    final public static Field DESCRIPTION = Field.String("description").clickable();
     final public static Field PARENT_ID = Field.Int("parent_id");
     private int id;
     private String description;
@@ -26,7 +26,7 @@ public class Question {
     private List<Answer> answers;
     final public static Field[] allColumns = { DESCRIPTION, QTYPE };
     final public static Field[] allCreateColumns = { DESCRIPTION, QTYPE, PARENT_ID };
-    final public static Field[] listViewColumns = { ID, DESCRIPTION, QTYPE };
+    final public static Field[] listViewColumns = { ID, DESCRIPTION };
             
     public Question(String description, int type, List<Answer> answers) {
         this.description = description;
