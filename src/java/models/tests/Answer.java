@@ -30,6 +30,10 @@ public class Answer {
         this.isCorrect = isCorrect;
     }
     
+    public Answer(String description) {
+        this.description = description;
+    }
+    
     public Answer(String description, boolean isCorrect) {
         this.description = description;
         this.isCorrect = isCorrect;

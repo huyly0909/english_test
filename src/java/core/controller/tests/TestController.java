@@ -8,7 +8,6 @@ package core.controller.tests;
 
 import core.CoreSection.CoreSection;
 import core.CoreSection.HtmlContent;
-import static core.controller.AccountController.HEADER;
 import core.controller.GeneralController;
 import core.controller.SessionController;
 import static core.controller.tests.QuickTestController.testHeader;
@@ -16,6 +15,7 @@ import core.op.CreateNewTestOp;
 import core.op.GetListViewOp;
 import core.op.GetListeningTestOp;
 import core.op.GetReadingTestOp;
+import core.op.GetWritingTestOp;
 import core.util.Booleans;
 import core.util.HtmlBuilder.ButtonBuilder;
 import static core.util.HtmlBuilder.ButtonBuilder.HOME_BTN;
@@ -41,6 +41,7 @@ import models.tests.Listening;
 import models.tests.Question;
 import models.tests.QuestionType;
 import models.tests.Reading;
+import models.tests.Writing;
 import models.users.CurrentUser;
 import models.users.User;
 
@@ -59,7 +60,10 @@ public class TestController extends HttpServlet {
     final private static String CREATE_READING = "createreading";
     final private static String LISTENING = "listening";
     final private static String DO_LISTENING = "dolistening";
+    final private static String WRITING = "writing";
+    final private static String DO_WRITING = "dowriting";
     final private static String CREATE_LISTENING = "createlistening";
+    final private static String CREATE_WRITING = "createwriting";
     
     /**
      * Used to control Writing, Listening, Speaking test.
@@ -93,16 +97,28 @@ public class TestController extends HttpServlet {
                         id = Integer.parseInt(request.getParameter("ids"));
                         getListeningTest(request, response, id);
                         break;
+                    case WRITING: // Pop-up writing test.
+                        resultSet = GetListViewOp.records(Writing.TYPE);
+                        ListViewBuilder.display(request, response, Writing.TYPE, QuestionType.WRITING, WRITING_TESTS_HEADER, false, false, false, false, resultSet, Writing.listViewColumns);
+                        break;
+                    case DO_WRITING:
+                        id = Integer.parseInt(request.getParameter("ids"));
+                        getWritingTest(request, response, id);
+                        break;    
                     default:
                         break;
             } else if (currentUser.isTeacher()) switch (action) {
                 case READING: // Pop-up reading test.
                     resultSet = GetListViewOp.records(Reading.TYPE);
-                    ListViewBuilder.display(request, response, Reading.TYPE, READING_TESTS_HEADER, resultSet, Reading.ID, Reading.TITLE);
+                    ListViewBuilder.display(request, response, Reading.TYPE, QuestionType.READING, READING_TESTS_HEADER, resultSet, Reading.ID, Reading.TITLE);
                     break;
                 case LISTENING: // Pop-up listening test.
                     resultSet = GetListViewOp.records(Listening.TYPE);
-                    ListViewBuilder.display(request, response, Listening.TYPE, LISTENING_TESTS_HEADER, resultSet, Listening.listViewColumns);
+                    ListViewBuilder.display(request, response, Listening.TYPE, QuestionType.LISTENING, LISTENING_TESTS_HEADER, resultSet, Listening.listViewColumns);
+                    break;
+                case WRITING: // Pop-up Writing test.
+                    resultSet = GetListViewOp.records(Writing.TYPE);
+                    ListViewBuilder.display(request, response, Writing.TYPE, QuestionType.WRITING, WRITING_TESTS_HEADER, resultSet, Writing.listViewColumns);
                     break;
                 case CREATE_READING:
                     CreateNewTestOp.create(newReadingTest(request));
@@ -114,12 +130,17 @@ public class TestController extends HttpServlet {
                     request.setAttribute("isSuccessful", true);
                     GeneralController.createNewTestForm(request, response, Listening.TYPE);
                     break;
+                case CREATE_WRITING:
+                    CreateNewTestOp.create(newWritingTest(request));
+                    request.setAttribute("isSuccessful", true);
+                    GeneralController.createNewWritingTestForm(request, response);
+                    break;
                 default:
                     break;
             }
         }
     }
-
+    
     private Reading newReadingTest(HttpServletRequest request) {
                 return new Reading(
                     request.getParameter(Reading.TITLE.Name()),
@@ -134,6 +155,34 @@ public class TestController extends HttpServlet {
                     request.getParameter("description"),
                     newQuestions(request)
                 );
+    }
+    
+    private Writing newWritingTest(HttpServletRequest request) {
+        return new Writing(
+                    request.getParameter(Listening.TITLE.Name()),
+                    newWritingQuestions(request)
+                );
+    }
+    
+    private List<Question> newWritingQuestions(HttpServletRequest request) {
+        List<Question> questions = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            questions.add(
+                    new Question(
+                        request.getParameter(Question.DESCRIPTION.Name() + "_q" + i), // description_q0, description_q1,..., description_q9
+                        QuestionType.WRITING,
+                        newWritingAnswers(request, i)
+                    )
+            );
+        }
+        return questions;
+    }
+    
+    private List<Answer> newWritingAnswers(HttpServletRequest request, int questionIndex) {
+        List<Answer> answers = new ArrayList<>();
+        String description = request.getParameter("answer_q" + questionIndex); // answer_q1, answer_q2,..
+        answers.add(new Answer(description));
+        return answers;
     }
 
     private List<Question> newQuestions(HttpServletRequest request) {
@@ -200,6 +249,27 @@ public class TestController extends HttpServlet {
                 + ButtonBuilder.DO_OTHER_TEST_BTN; 
        // Add full test form
         request.setAttribute("testForm", fullTest);
+        request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
+        request.getRequestDispatcher(HtmlContent.TEST_FORM).forward(request, response);
+    }
+    
+    private void getWritingTest(HttpServletRequest request, HttpServletResponse response, int id) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException, ServletException, IOException {
+        Writing test = GetWritingTestOp.execute(id);
+        // Create test header
+        request.setAttribute("testHeader", WRITING_TESTS_HEADER);
+        String tenQuestionsHTMLForm = "";
+        List<Question> questionList = test.getQuestions();
+        for (Question question : questionList) {
+            tenQuestionsHTMLForm += QuestionHTMLBuilder.buildWriting(question, questionList.indexOf(question) + 1);
+        }
+        String fullTest = tenQuestionsHTMLForm 
+                + ButtonBuilder.SUBMIT_BTN 
+                + ButtonBuilder.TOTAL_CORE
+                + ButtonBuilder.DO_OTHER_TEST_BTN; 
+       // Add full test form
+        request.setAttribute("testForm", fullTest);
+        request.setAttribute("testType", Writing.TYPE);
+        request.setAttribute("testDescription", "Re-write and correct sentences");
         request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
         request.getRequestDispatcher(HtmlContent.TEST_FORM).forward(request, response);
     }

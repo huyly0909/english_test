@@ -62,4 +62,22 @@ public class QuestionHTMLBuilder {
                                         "description", question.getDescription(),
                                         "correct_answer", correctAnswer); // remove ", " at the end
     }
+    
+    public static String buildWriting(Question question, int i) {
+        String correctAnswer = "";
+        List<Answer> answers = question.getAnswers();
+        for(Answer answer : answers) {
+            correctAnswer += answer.getDescription();
+        }
+        String template =
+            "<div id='question{index}' class='question-container'>" + 
+                "<span type='text' class='input-text'><span class='bold'>Q{index}:</span> {description}</span><br/>" +
+                "<input type='text' name='question{index}'><br/>" +
+                "<div class='correct-answer' style='display: none'>Correct Answer: <span class='bold'>{correct_answer}</span></div>" +
+            "</div>" +
+            "<br/>";
+        return Strings.format(template, "index", String.valueOf(i),
+                                        "description", question.getDescription(),
+                                        "correct_answer", correctAnswer);
+    }
 }

@@ -12,6 +12,7 @@ import models.tests.Answer;
 import models.tests.Listening;
 import models.tests.Question;
 import models.tests.Reading;
+import models.tests.Writing;
 
 /**
  *
@@ -27,13 +28,22 @@ public class CreateNewTestOp {
         createQuestions(db, test.getQuestions(), testId);
     }
     
-        public static void create(Listening test) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public static void create(Listening test) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         db db = new db();
         int testId = new db().where(Listening.TYPE)
                   .addColumns(Listening.allColumns)
                   .addValues(test.getTitle(), test.getUrl())
                   .updateAndGetId();
         createQuestions(db, test.getQuestions(), testId);
+    }
+
+    public static void create(Writing test) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        db db = new db();
+        int testId = new db().where(Writing.TYPE)
+                  .addColumns(Writing.allColumns)
+                  .addValues(test.getTitle())
+                  .updateAndGetId();
+        createWritingQuestions(db, test.getQuestions(), testId);
     }
         
     private static void createQuestions(db db, List<Question> questions, int testId) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -47,6 +57,24 @@ public class CreateNewTestOp {
                 db.where(Answer.TYPE)
                         .addColumns(Answer.allCreateColumns)
                         .addValues(String.valueOf(questionId), answer.getDescription(), String.valueOf(Booleans.convertToInt(answer.isCorrect())))
+                        .update();
+            }
+            db.reset();
+        }
+        db.close();
+    }
+    
+    private static void createWritingQuestions(db db, List<Question> questions, int testId) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        for (Question question : questions) {
+            int questionId = db.where(Question.TYPE)
+                      .addColumns(Question.allCreateColumns)
+                      .addValues(question.getDescription(), String.valueOf(question.getType()), String.valueOf(testId))
+                      .updateAndGetId();
+            db.reset();
+            for(Answer answer : question.getAnswers()) {
+                db.where(Answer.TYPE)
+                        .addColumns(Answer.QUESTION_ID, Answer.DESCRIPTION)
+                        .addValues(String.valueOf(questionId), answer.getDescription())
                         .update();
             }
             db.reset();

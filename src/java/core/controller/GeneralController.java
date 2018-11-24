@@ -37,6 +37,7 @@ import models.tests.Listening;
 import models.tests.Question;
 import models.tests.QuestionType;
 import models.tests.Reading;
+import models.tests.Writing;
 import models.users.CurrentUser;
 import models.users.Guest;
 import models.users.Role;
@@ -70,6 +71,9 @@ public class GeneralController extends HttpServlet {
                 case Listening.TYPE: // new Listening test
                     createNewTestForm(request, response, Listening.TYPE);
                     break;
+                case Writing.TYPE: // new Writing test
+                    createNewWritingTestForm(request, response);
+                    break;
                 default:
                     String buttons = "";
                     String form = "";
@@ -92,7 +96,7 @@ public class GeneralController extends HttpServlet {
             }
             if (CoreAction.CREATE.equals(action)) { // Create after submit creation form
                 CreateOp.create(type, request);
-            } else if (CoreAction.DELETE.equals(action)) {
+            } else if (CoreAction.DELETE.equals(action)) { // Delete
                 DeleteOp.execute(type, request.getParameter("ids"));
                 if (Question.TYPE.equals(type)) {
                     int Qtype = Integer.parseInt(request.getParameter("question_type"));
@@ -125,6 +129,16 @@ public class GeneralController extends HttpServlet {
         request.setAttribute("formBody", TestFormBuilder.build(type));
         request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
         String form = HtmlContent.CREATE_NEW_TEST_FORM;
+        request.getRequestDispatcher(form).forward(request, response);
+    }
+    
+    public static void createNewWritingTestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        request.setAttribute("formHeader", "Create New Writing Test");
+        request.setAttribute("testType", Writing.TYPE);
+        // generate form
+        request.setAttribute("formBody", TestFormBuilder.buildWriting());
+        request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
+        String form = HtmlContent.CREATE_NEW_WRITING_TEST_FORM;
         request.getRequestDispatcher(form).forward(request, response);
     }
 

@@ -15,15 +15,15 @@ import java.util.List;
  */
 public class Question {
 
-    final public static String TYPE = "question";
+    final public static String TYPE = "question"; // used for Advanced, Basic, Writing test.
     final public static Field ID = Field.Int("id");
     final public static Field QTYPE = Field.Int("type");
     final public static Field DESCRIPTION = Field.String("description").clickable();
     final public static Field PARENT_ID = Field.Int("parent_id");
-    private int id;
-    private String description;
-    private int type;
-    private List<Answer> answers;
+    protected int id;
+    protected String description;
+    protected int type;
+    protected List<Answer> answers;
     final public static Field[] allColumns = { DESCRIPTION, QTYPE };
     final public static Field[] allCreateColumns = { DESCRIPTION, QTYPE, PARENT_ID };
     final public static Field[] listViewColumns = { ID, DESCRIPTION };
@@ -51,6 +51,8 @@ public class Question {
         this.type = type;
         this.answers = new ArrayList<>();
     }
+    
+    public Question() {}
 
     public List<Answer> getAnswers() {
         return answers;
@@ -75,6 +77,9 @@ public class Question {
     public int getID () {
         return id;
     }
-    
-    
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

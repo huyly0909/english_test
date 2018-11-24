@@ -7,6 +7,7 @@ package core.util.HtmlBuilder;
 
 import core.util.Strings;
 import models.tests.Reading;
+import models.tests.Writing;
 
 /**
  *
@@ -20,7 +21,7 @@ public class TestFormBuilder {
             "    </table>" +
             "</form>";
         
-    final static String TitleAndDescription = 
+    final static String Title = 
             "<tr>" +
             "    <td>" +
             "        <span>Title</span>" +
@@ -109,22 +110,56 @@ public class TestFormBuilder {
             "        <input type='checkbox' onclick='return checkCorrectAnswer({index})' name='is_correct3_q{index}'>" +
             "    </td>" +
             "</tr>";
+    final static String WritingQuestionHtml = 
+            "<tr>" +
+            "    <td colspan='2'  style='text-align: center'>" +
+            "        <span>Question {questionIndex}</span>" +
+            "    </td>" +
+            "</tr>" +
+            "" +
+            "<tr>" +
+            "    <td>" +
+            "        <span>Description</span>" +
+            "    </td>" +
+            "    <td>" +
+            "       <input type='text' value='New description' name='description_q{index}'  required><br>" +
+            "    </td>" +
+            "</tr>" +
+            "<tr>" +
+            "    <td>" +
+            "        <span>Answer</span>" +
+            "    </td>" +
+            "    <td>" +
+            "       <input type='text' name='answer_q{index}' value='d' required><br>" +
+            "    </td>" +
+            "</tr>";
     final static String SubmitBtn = 
             "<tr>" +
             "    <td colspan='2' class='buttons'>" +
             "        <input type='hidden' value='create{testType}' name='action'>" +
+            "        <input type='hidden' value='' name='answerSize'>" +
             "        <input type='hidden' value='{testType}' name='type'>" +
             "        <input type='submit' value='Create'>" +
             "    </td>" +
             "</tr>";
 
     public static String build(String type) {
-        String fullForm = TitleAndDescription + (type.equals(Reading.TYPE) ? ReadingTestDescription : ListeningTestDescription);
+        String fullForm = Title + (type.equals(Reading.TYPE) ? ReadingTestDescription : ListeningTestDescription);
         for (int i = 0; i <= 9; i++) {
             fullForm += Strings.format(QuestionHtml, "questionIndex", String.valueOf(i + 1),
                                                      "index", String.valueOf(i));
         }
         fullForm += Strings.format(SubmitBtn, "testType", type);
+        return Strings.format(TestForm, "body", fullForm);
+    }
+
+    public static String buildWriting() {
+        String fullForm = Title;
+        for (int i = 0; i <= 9; i++) {
+            fullForm += Strings.format(WritingQuestionHtml, "questionIndex", String.valueOf(i + 1),
+                                                            "index", String.valueOf(i));
+        }
+        fullForm += Strings.format(SubmitBtn, "testType", Writing.TYPE);
         return Strings.format(TestForm, "body", fullForm);
     }
 }

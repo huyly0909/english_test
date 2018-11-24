@@ -17,6 +17,7 @@ public class HtmlContent {
     final public static String CREATE_NEW_BASIC_TEST_FORM = "create_new_basic_test.content.jsp";
     final public static String CREATE_NEW_ADVANCED_TEST_FORM = "create_new_advanced_test.content.jsp";
     final public static String CREATE_NEW_TEST_FORM = "create_new_test.content.jsp";
+    final public static String CREATE_NEW_WRITING_TEST_FORM = "create_new_writing_test.content.jsp";
     final public static String CREATE_NEW_LISTENING_TEST_FORM = "create_new_listening_test.content.jsp";
     final public static String CREATE_NEW_ACCOUNT_FORM = "create_new_account.content.jsp";
     final public static String LIST_VIEW_CONTENT_JSP = "list_view.content.jsp";
