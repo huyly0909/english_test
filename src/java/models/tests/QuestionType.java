@@ -15,6 +15,7 @@ public class QuestionType {
     final public static int READING = 2;
     final public static int LISTENING = 3;
     final public static int WRITING = 4;
+    final public static int SPEAKING = 5;
     
     public static int get(String type) {
         switch (type) {
@@ -28,6 +29,8 @@ public class QuestionType {
                 return LISTENING;
             case Writing.TYPE:
                 return WRITING;
+            case Speaking.TYPE:
+                return SPEAKING;
             default:
                 return -1;
         }

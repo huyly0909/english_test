@@ -5,14 +5,8 @@
  */
 package core.op;
 
-import core.util.Booleans;
-import core.util.ConditionBuilder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import models.tests.Answer;
-import models.tests.Question;
-import models.tests.QuestionType;
 
 /**
  *

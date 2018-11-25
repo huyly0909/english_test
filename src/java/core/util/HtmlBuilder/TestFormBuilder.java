@@ -7,6 +7,7 @@ package core.util.HtmlBuilder;
 
 import core.util.Strings;
 import models.tests.Reading;
+import models.tests.Speaking;
 import models.tests.Writing;
 
 /**
@@ -133,6 +134,15 @@ public class TestFormBuilder {
             "       <input type='text' name='answer_q{index}' value='d' required><br>" +
             "    </td>" +
             "</tr>";
+        final static String SpeakingDescriptionHtml = 
+            "<tr>" +
+            "    <td>" +
+            "        <span>Description</span>" +
+            "    </td>" +
+            "    <td>" +
+            "       <textarea value='New description' name='description' required><br>" +
+            "    </td>" +
+            "</tr>";
     final static String SubmitBtn = 
             "<tr>" +
             "    <td colspan='2' class='buttons'>" +
@@ -160,6 +170,13 @@ public class TestFormBuilder {
                                                             "index", String.valueOf(i));
         }
         fullForm += Strings.format(SubmitBtn, "testType", Writing.TYPE);
+        return Strings.format(TestForm, "body", fullForm);
+    }
+    
+    public static String buildSpeaking() {
+        String fullForm = Title;
+        fullForm += SpeakingDescriptionHtml;
+        fullForm += Strings.format(SubmitBtn, "testType", Speaking.TYPE);
         return Strings.format(TestForm, "body", fullForm);
     }
 }

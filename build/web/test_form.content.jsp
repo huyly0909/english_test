@@ -27,7 +27,7 @@
                     if (type === "writing") {
                         var questionInputVal = $(questionInput).val();
                         if (questionInputVal === '') {
-                            alert("Please finish question " + i + " " + type);
+                            alert("Please finish question " + i);
                             return false;
                         }
                         var correct_answer = $(questionID + " > div[class='correct-answer']").text().split(': ')[1];
@@ -39,7 +39,7 @@
                         var selectedAnswer = $(questionInput + ":checked");
                         var selectedAnswerVal = selectedAnswer.val();
                         if (typeof selectedAnswerVal === 'undefined') {
-                            alert("Please finish question " + i + " " + type);
+                            alert("Please finish question " + i);
                             return false;
                         }
                         //  Get correct answer

@@ -457,3 +457,14 @@ td.buttons input:hover {
 .clickable-text:hover {
     color: brown;
 }
+
+textarea {
+    width: 400px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 7px;
+    box-shadow: 2px 2px black;
+    color: #005256;
+    padding: 2px;
+    font-family: sans-serif;
+}

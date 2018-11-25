@@ -41,6 +41,7 @@ import models.tests.Listening;
 import models.tests.Question;
 import models.tests.QuestionType;
 import models.tests.Reading;
+import models.tests.Speaking;
 import models.tests.Writing;
 import models.users.CurrentUser;
 import models.users.User;
@@ -55,6 +56,7 @@ public class TestController extends HttpServlet {
     final private static String READING_TESTS_HEADER = "Reading Tests";
     final private static String WRITING_TESTS_HEADER = "Writing Tests";
     final private static String LISTENING_TESTS_HEADER = "Listening Tests";
+    final private static String SPEAKING_TESTS_HEADER = "Speaking Tests";
     final private static String READING = "reading";
     final private static String DO_READING = "doreading";
     final private static String CREATE_READING = "createreading";
@@ -64,6 +66,9 @@ public class TestController extends HttpServlet {
     final private static String DO_WRITING = "dowriting";
     final private static String CREATE_LISTENING = "createlistening";
     final private static String CREATE_WRITING = "createwriting";
+    final private static String SPEAKING = "speaking";
+    final private static String CREATE_SPEAKING = "createspeaking";
+    final private static String DO_SPEAKING = "dospeaking";
     
     /**
      * Used to control Writing, Listening, Speaking test.
@@ -119,6 +124,10 @@ public class TestController extends HttpServlet {
                 case WRITING: // Pop-up Writing test.
                     resultSet = GetListViewOp.records(Writing.TYPE);
                     ListViewBuilder.display(request, response, Writing.TYPE, QuestionType.WRITING, WRITING_TESTS_HEADER, resultSet, Writing.listViewColumns);
+                    break;
+                case SPEAKING: // Pop-up Speaking test.
+                    resultSet = GetListViewOp.records(Speaking.TYPE);
+                    ListViewBuilder.display(request, response, Speaking.TYPE, QuestionType.SPEAKING, SPEAKING_TESTS_HEADER, resultSet, Speaking.listViewColumns);
                     break;
                 case CREATE_READING:
                     CreateNewTestOp.create(newReadingTest(request));

@@ -3,18 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/tinluu/english_test/src/java/models/tests/Answer.java</file>
-            <file>file:/Users/tinluu/english_test/web/create_new_test.content.jsp</file>
+            <file>file:/Users/tinluu/english_test/web/test.html</file>
             <file>file:/Users/tinluu/english_test/src/java/core/controller/tests/TestController.java</file>
             <file>file:/Users/tinluu/english_test/src/java/core/util/HtmlBuilder/TestFormBuilder.java</file>
-            <file>file:/Users/tinluu/english_test/src/java/models/tests/Reading.java</file>
-            <file>file:/Users/tinluu/english_test/web/test_form.content.jsp</file>
-            <file>file:/Users/tinluu/english_test/src/java/core/util/HtmlBuilder/QuestionHTMLBuilder.java</file>
-            <file>file:/Users/tinluu/english_test/src/java/models/tests/QuestionType.java</file>
-            <file>file:/Users/tinluu/english_test/src/java/models/tests/Writing.java</file>
-            <file>file:/Users/tinluu/english_test/src/java/core/op/GetReadingTestOp.java</file>
+            <file>file:/Users/tinluu/english_test/web/css/style.css</file>
+            <file>file:/Users/tinluu/english_test/web/create_new_speaking_test.content.jsp</file>
+            <file>file:/Users/tinluu/english_test/src/java/core/controller/GeneralController.java</file>
             <file>file:/Users/tinluu/english_test/src/java/core/CoreSection/HtmlContent.java</file>
-            <file>file:/Users/tinluu/english_test/src/java/core/op/GetWritingTestOp.java</file>
         </group>
     </open-files>
 </project-private>

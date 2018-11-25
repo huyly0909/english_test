@@ -37,6 +37,7 @@ import models.tests.Listening;
 import models.tests.Question;
 import models.tests.QuestionType;
 import models.tests.Reading;
+import models.tests.Speaking;
 import models.tests.Writing;
 import models.users.CurrentUser;
 import models.users.Guest;
@@ -60,10 +61,7 @@ public class GeneralController extends HttpServlet {
             switch (type) {
                 case Question.TYPE: // add new quick test
                     int Qtype = Integer.parseInt(request.getParameter("question_type"));
-                    // For quick_test
-//                    if(Qtype == (QuestionType.ADVANCED) || Qtype == (QuestionType.BASIC)) {
                         createNewQuickTestForm(Qtype, request, response);
-//                    }
                     break;
                 case Reading.TYPE: // new Reading test
                     createNewTestForm(request, response, Reading.TYPE);
@@ -74,6 +72,9 @@ public class GeneralController extends HttpServlet {
                 case Writing.TYPE: // new Writing test
                     createNewWritingTestForm(request, response);
                     break;
+                case Speaking.TYPE: // new Speaking test
+                    createNewSpeakingTestForm(request, response);
+                    break;    
                 default:
                     String buttons = "";
                     String form = "";
@@ -139,6 +140,16 @@ public class GeneralController extends HttpServlet {
         request.setAttribute("formBody", TestFormBuilder.buildWriting());
         request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
         String form = HtmlContent.CREATE_NEW_WRITING_TEST_FORM;
+        request.getRequestDispatcher(form).forward(request, response);
+    }
+    
+    public static void createNewSpeakingTestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, ParseException {
+        request.setAttribute("formHeader", "Create New Speaking Test");
+        request.setAttribute("testType", Speaking.TYPE);
+        // generate form
+        request.setAttribute("formBody", TestFormBuilder.buildSpeaking());
+        request.setAttribute(TOP_BTN_NAME, LOGOUT_BTN + HOME_BTN);
+        String form = HtmlContent.CREATE_NEW_SPEAKING_TEST_FORM;
         request.getRequestDispatcher(form).forward(request, response);
     }
 
