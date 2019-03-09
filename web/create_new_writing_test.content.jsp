@@ -23,7 +23,7 @@
             function validateForm() {
                 for (var i = 0; i < 10; i++) {
                     var answer = $("input[name='answer_q" + i + "']").val();
-                    var description_length = $("input[name='description_q1']").val().length;
+                    var description_length = $("input[name='description_q" + i + "']").val().length;
                     if (answer.length < description_length) {
                         alert("The answer of question " + (i + 1) + " can not shorter than description.");
                         return false;

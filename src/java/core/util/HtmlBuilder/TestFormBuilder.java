@@ -28,7 +28,7 @@ public class TestFormBuilder {
             "        <span>Title</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' value='Title' name='title'  required><br>" +
+            "       <input type='text' name='title'  required><br>" +
             "    </td>" +
             "</tr>";
     final static String ReadingTestDescription = 
@@ -37,7 +37,7 @@ public class TestFormBuilder {
             "        <span>Essay</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' value='Essay' name='description'  required><br>" +
+            "       <input type='text' name='description'  required><br>" +
             "    </td>" +
             "</tr>";
 
@@ -47,7 +47,7 @@ public class TestFormBuilder {
             "        <span>Url</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' value='Url' name='description'  required><br>" +
+            "       <input type='text' name='description'  required><br>" +
             "    </td>" +
             "</tr>";
 
@@ -63,7 +63,7 @@ public class TestFormBuilder {
             "        <span>Description</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' value='New description' name='description_q{index}'  required><br>" +
+            "       <input type='text' name='description_q{index}'  required><br>" +
             "    </td>" +
             "</tr>" +
             "<tr>" +
@@ -71,7 +71,7 @@ public class TestFormBuilder {
             "        <span>Answer A</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' name='description0_q{index}' value='a' required><br>" +
+            "       <input type='text' name='description0_q{index}'  required><br>" +
             "    </td>" +
             "    <td>" +
             "        <input type='checkbox' onclick='return checkCorrectAnswer({index})' checked name='is_correct0_q{index}'>" +
@@ -83,7 +83,7 @@ public class TestFormBuilder {
             "        <span>Answer B</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' name='description1_q{index}' value='b' required><br>" +
+            "       <input type='text' name='description1_q{index}'  required><br>" +
             "    </td>" +
             "    <td>" +
             "        <input type='checkbox' onclick='return checkCorrectAnswer({index})' name='is_correct1_q{index}'>" +
@@ -94,7 +94,7 @@ public class TestFormBuilder {
             "        <span>Answer C</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' name='description2_q{index}' value='c' required><br>" +
+            "       <input type='text' name='description2_q{index}'  required><br>" +
             "    </td>" +
             "    <td>" +
             "        <input type='checkbox' onclick='return checkCorrectAnswer({index})' name='is_correct2_q{index}'>" +
@@ -105,7 +105,7 @@ public class TestFormBuilder {
             "        <span>Answer D</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' name='description3_q{index}' value='d' required><br>" +
+            "       <input type='text' name='description3_q{index}'  required><br>" +
             "    </td>" +
             "    <td>" +
             "        <input type='checkbox' onclick='return checkCorrectAnswer({index})' name='is_correct3_q{index}'>" +
@@ -123,7 +123,7 @@ public class TestFormBuilder {
             "        <span>Description</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' value='New description' name='description_q{index}'  required><br>" +
+            "       <input type='text' name='description_q{index}'  required><br>" +
             "    </td>" +
             "</tr>" +
             "<tr>" +
@@ -131,7 +131,7 @@ public class TestFormBuilder {
             "        <span>Answer</span>" +
             "    </td>" +
             "    <td>" +
-            "       <input type='text' name='answer_q{index}' value='d' required><br>" +
+            "       <input type='text' name='answer_q{index}' required><br>" +
             "    </td>" +
             "</tr>";
         final static String SpeakingDescriptionHtml = 
@@ -140,7 +140,7 @@ public class TestFormBuilder {
             "        <span>Description</span>" +
             "    </td>" +
             "    <td>" +
-            "       <textarea value='New description' name='description' required><br>" +
+            "       <textarea name='description' required><br>" +
             "    </td>" +
             "</tr>";
     final static String SubmitBtn = 

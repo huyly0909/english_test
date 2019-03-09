@@ -24,15 +24,17 @@ public class GetQuickTestOp {
 
     private static ArrayList<Question> getQuestionList(boolean isAdvanced) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         // Get list of question
-        ResultSet questionSet = new db().where(Question.TYPE)
+        db db = new db();
+        ResultSet questionSet = db.where(Question.TYPE)
                 .addConditions(ConditionBuilder.get(Question.QTYPE.Name(), isAdvanced ? QuestionType.ADVANCED : QuestionType.BASIC))
                 .execute();
         ArrayList<Question> questionList = new ArrayList<>();
         // Add new question into questions list
         while (questionSet.next()) {
             Question currentQuestion = new Question(questionSet.getString(Question.DESCRIPTION.Name()));
+            db db2 = new db();
             // Get add answers from question_id
-            ResultSet answerSet = new db().where(Answer.TYPE)
+            ResultSet answerSet = db2.where(Answer.TYPE)
                     .addConditions(ConditionBuilder.get(Answer.QUESTION_ID.Name(), questionSet.getInt(Question.ID.Name())))
                     .execute();
             while (answerSet.next()) {
@@ -40,7 +42,9 @@ public class GetQuickTestOp {
                 currentQuestion.addAnswer(_answer);
             }
             questionList.add(currentQuestion);
+            db2.close();
         }
+        db.close();
         return questionList;
     }
 

@@ -58,7 +58,7 @@
                             <span>Description</span>
                         </td>
                         <td>
-                           <input type="text" value="New description" name="description"  required><br>
+                           <input type="text" name="description"  required><br>
                         </td>
                     </tr>
 
@@ -67,7 +67,7 @@
                             <span>Answer A</span>
                         </td>
                         <td>
-                           <input type="text" name="description0" value="a" required><br>
+                           <input type="text" name="description0"  required><br>
                         </td>
                         <td>
                             <input type="checkbox" checked name="is_correct0">
@@ -79,7 +79,7 @@
                             <span>Answer B</span>
                         </td>
                         <td>
-                           <input type="text" name="description1" value="b" required><br>
+                           <input type="text" name="description1"  required><br>
                         </td>
                         <td>
                             <input type="checkbox" name="is_correct1">
@@ -91,7 +91,7 @@
                             <span>Answer C</span>
                         </td>
                         <td>
-                           <input type="text" name="description2" value="c" required><br>
+                           <input type="text" name="description2"  required><br>
                         </td>
                         <td>
                             <input type="checkbox" name="is_correct2">
@@ -103,7 +103,7 @@
                             <span>Answer D</span>
                         </td>
                         <td>
-                           <input type="text" name="description3" value="d" required><br>
+                           <input type="text" name="description3" required><br>
                         </td>
                         <td>
                             <input type="checkbox" name="is_correct3">

@@ -11,6 +11,10 @@
         <script TYPE="text/javascript">
             function checkPermission(testName) {
                 var isMember = '${currentUser.isNotGuest()}';
+                if (testName === 'speaking') {
+                    alert(testName + ' is not available now.');
+                    return false;
+                }
                 if (isMember) {
                     $("input[name='action']").attr("value", testName);
                     $("form[name='test']").submit();
@@ -64,7 +68,7 @@
             <div type="button" onclick="return checkPermission('speaking')" class="div-btn test-section-btn speading-btn"><span class="test-section-text">S P E A K I N G</span></div>
         </div>
         <div id="quick-test-options-container" class='container quick-test-options-container' style="display: none;">
-            <div type="button" onclick='return selectOption("advanced")' class="div-btn test-section-btn quick-test-advented-btn"><span class="test-section-text">A D V E N C E D</span></div>
+            <div type="button" onclick='return selectOption("advanced")' class="div-btn test-section-btn quick-test-advented-btn"><span class="test-section-text">A D V A N C E D</span></div>
             <div type="button" onclick='selectOption("basic")' class="div-btn test-section-btn quick-test-basic-btn"><span class="test-section-text">B A S I C</span></div>
         </div>
         <br/><br/><br/>
